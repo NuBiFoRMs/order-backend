@@ -21,8 +21,16 @@ class OrderControllerTest {
     @Test
     public void getOrdersTest() throws Exception {
         mockMvc.perform(get("/api/v1/orders")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getOrdersPageTest() throws Exception {
+        mockMvc.perform(get("/api/v1/orders")
                 .param("page", "0")
                 .param("size", "10")
+                .param("sort", "id")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }

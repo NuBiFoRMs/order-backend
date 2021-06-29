@@ -1,7 +1,7 @@
 package com.nubiform.order.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springdoc.core.converters.models.Pageable;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -21,6 +21,6 @@ public class OrderController {
 
     @PostMapping("/orders/")
     public void resistOrder() {
-        
+
     }
 }
