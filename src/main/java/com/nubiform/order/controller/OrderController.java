@@ -14,22 +14,22 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/orders")
 public class OrderController {
 
-    @GetMapping("/orders")
+    @GetMapping
     public ResponseEntity<List<MemberOrderResponse>> getOrders(@ParameterObject Pageable pageable, String username, String email) {
         log.debug("getOrders: {} {} {}", pageable, username, email);
         return ResponseEntity.ok(new ArrayList<>());
     }
 
-    @GetMapping("/orders/{userid}")
+    @GetMapping("/{userid}")
     public ResponseEntity<OrderResponse> getOrder(@PathVariable String userid) {
         log.debug("getOrder: {}", userid);
         return ResponseEntity.ok(new OrderResponse());
     }
 
-    @PostMapping("/orders")
+    @PostMapping
     public ResponseEntity<OrderResponse> order(OrderRequest orderRequest) {
         log.debug("getOrder: {}", orderRequest);
         return ResponseEntity.ok(new OrderResponse());
