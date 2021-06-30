@@ -15,16 +15,16 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/members")
+@RequestMapping("/api/v1")
 public class MemberController {
 
-    @GetMapping("/")
+    @GetMapping("/members")
     public ResponseEntity<List<MemberResponse>> getMembers(@ParameterObject Pageable pageable) {
         log.debug("getOrders: {} {} {}", pageable);
         return ResponseEntity.ok(new ArrayList<MemberResponse>());
     }
 
-    @GetMapping("/{userid}")
+    @GetMapping("/members/{userid}")
     public ResponseEntity<MemberResponse> getMember(@PathVariable String userid) {
         log.debug("getMember: {}", userid);
         return ResponseEntity.ok(new MemberResponse());
