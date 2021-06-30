@@ -2,10 +2,7 @@ package com.nubiform.order.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
@@ -24,4 +21,7 @@ public class Order {
     private String product;
 
     private LocalDateTime orderDate;
+
+    @ManyToOne
+    private Member member;
 }

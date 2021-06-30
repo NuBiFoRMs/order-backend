@@ -3,6 +3,8 @@ package com.nubiform.order.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,4 +32,7 @@ public class Member {
     private String email;
 
     private String gender;
+
+    @OneToMany(mappedBy = "member")
+    private List<Order> order = new ArrayList<>();
 }
