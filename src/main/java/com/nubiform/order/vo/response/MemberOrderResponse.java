@@ -7,5 +7,5 @@ public class MemberOrderResponse {
 
     MemberResponse member;
 
-    OrderResponse order;
+    OrderResponse lastOrder;
 }
