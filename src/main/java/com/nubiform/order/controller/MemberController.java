@@ -21,7 +21,7 @@ public class MemberController {
     @GetMapping("/members")
     public ResponseEntity<List<MemberResponse>> getMembers(@ParameterObject Pageable pageable) {
         log.debug("getOrders: {} {} {}", pageable);
-        return ResponseEntity.ok(new ArrayList<MemberResponse>());
+        return ResponseEntity.ok(new ArrayList<>());
     }
 
     @GetMapping("/members/{userid}")
