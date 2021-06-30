@@ -1,6 +1,7 @@
 package com.nubiform.order.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
 
     @GetMapping("/orders")
-    public void getOrders(Pageable pageable) {
+    public void getOrders(@ParameterObject Pageable pageable) {
         log.debug("getOrders: {}", pageable);
     }
 
