@@ -20,6 +20,17 @@ class MemberControllerTest {
     @Test
     public void getMembersTest() throws Exception {
         mockMvc.perform(get("/api/v1/members")
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getMembersPageTest() throws Exception {
+        mockMvc.perform(get("/api/v1/members")
+                .param("page", "0")
+                .param("size", "10")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }

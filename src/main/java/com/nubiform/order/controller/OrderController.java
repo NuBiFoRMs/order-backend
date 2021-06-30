@@ -18,7 +18,7 @@ import java.util.List;
 public class OrderController {
 
     @GetMapping
-    public ResponseEntity<List<MemberOrderResponse>> getOrders(@ParameterObject Pageable pageable, String username, String email) {
+    public ResponseEntity<List<MemberOrderResponse>> getOrders(@ParameterObject Pageable pageable, @RequestParam(required = false) String username, @RequestParam(required = false) String email) {
         log.debug("getOrders: {} {} {}", pageable, username, email);
         return ResponseEntity.ok(new ArrayList<>());
     }

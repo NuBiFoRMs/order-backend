@@ -30,7 +30,17 @@ class OrderControllerTest {
         mockMvc.perform(get("/api/v1/orders")
                 .param("page", "0")
                 .param("size", "10")
-                .param("sort", "id")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getOrdersPageAndParamsTest() throws Exception {
+        mockMvc.perform(get("/api/v1/orders")
+                .param("page", "0")
+                .param("size", "10")
+                .param("username", "username")
+                .param("email", "email")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
@@ -43,7 +53,7 @@ class OrderControllerTest {
     }
 
     @Test
-    public void resistOrderTest() throws Exception {
+    public void orderTest() throws Exception {
         mockMvc.perform(post("/api/v1/orders/")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
