@@ -19,7 +19,7 @@ public class Order {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     private String product;
 
