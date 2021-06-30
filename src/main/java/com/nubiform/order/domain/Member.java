@@ -1,7 +1,14 @@
 package com.nubiform.order.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Getter
+@Setter
 @Entity
 @Table(name = "members")
 public class Member {
