@@ -1,14 +1,15 @@
 package com.nubiform.order.domain;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Getter
 @Setter
 @Entity
@@ -34,5 +35,15 @@ public class Member {
     private String gender;
 
     @OneToMany(mappedBy = "member")
-    private List<Order> order = new ArrayList<>();
+    private Set<Order> order = new HashSet<>();
+
+    @Builder
+    public Member(String username, String nickname, String password, String phone, String email, String gender) {
+        this.username = username;
+        this.nickname = nickname;
+        this.password = password;
+        this.phone = phone;
+        this.email = email;
+        this.gender = gender;
+    }
 }
