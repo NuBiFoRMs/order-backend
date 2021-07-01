@@ -7,6 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.nubiform.order.controller.MemberController.API_V1_MEMBERS_URI;
+import static com.nubiform.order.controller.MemberController.PATH_VARIABLE_USER_ID;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -19,7 +21,7 @@ class MemberControllerTest {
 
     @Test
     public void getMembersTest() throws Exception {
-        mockMvc.perform(get("/api/v1/members")
+        mockMvc.perform(get(API_V1_MEMBERS_URI)
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -28,7 +30,7 @@ class MemberControllerTest {
 
     @Test
     public void getMembersPageTest() throws Exception {
-        mockMvc.perform(get("/api/v1/members")
+        mockMvc.perform(get(API_V1_MEMBERS_URI)
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -37,7 +39,7 @@ class MemberControllerTest {
 
     @Test
     public void getMemberTest() throws Exception {
-        mockMvc.perform(get("/api/v1/members/{id}", 1)
+        mockMvc.perform(get(API_V1_MEMBERS_URI + PATH_VARIABLE_USER_ID, 1)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }

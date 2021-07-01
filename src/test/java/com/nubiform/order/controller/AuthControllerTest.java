@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.nubiform.order.controller.AuthController.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -19,21 +20,21 @@ class AuthControllerTest {
 
     @Test
     void signUpTest() throws Exception {
-        mockMvc.perform(post("/api/v1/sign-up")
+        mockMvc.perform(post(API_V1_AUTH_URI + SIGN_UP)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
     void signInTest() throws Exception {
-        mockMvc.perform(post("/api/v1/sign-in")
+        mockMvc.perform(post(API_V1_AUTH_URI + SIGN_IN)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
     void signOutTest() throws Exception {
-        mockMvc.perform(post("/api/v1/sign-out")
+        mockMvc.perform(post(API_V1_AUTH_URI + SIGN_OUT)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
