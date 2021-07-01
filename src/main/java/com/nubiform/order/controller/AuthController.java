@@ -5,6 +5,7 @@ import com.nubiform.order.vo.request.SignUpRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +22,7 @@ public class AuthController {
     public static final String SIGN_OUT = "/sign-out";
 
     @PostMapping(SIGN_UP)
-    public ResponseEntity signUp(@Valid SignUpRequest signUpRequest) {
+    public ResponseEntity signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
         log.debug("signIn: {}", signUpRequest);
         return ResponseEntity.ok().build();
     }

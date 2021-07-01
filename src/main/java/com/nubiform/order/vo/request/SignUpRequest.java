@@ -1,11 +1,17 @@
 package com.nubiform.order.vo.request;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Data
 public class SignUpRequest {
 
