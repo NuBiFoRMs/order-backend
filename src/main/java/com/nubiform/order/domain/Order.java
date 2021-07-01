@@ -1,13 +1,14 @@
 package com.nubiform.order.domain;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Getter
 @Setter
 @Entity
@@ -24,4 +25,15 @@ public class Order {
 
     @ManyToOne
     private Member member;
+
+    @Builder
+    public Order(String product, LocalDateTime orderDate) {
+        this.product = product;
+        this.orderDate = orderDate;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+        member.getOrder().add(this);
+    }
 }
