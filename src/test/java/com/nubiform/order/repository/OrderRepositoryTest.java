@@ -56,6 +56,7 @@ class OrderRepositoryTest {
 
         Member newMember = memberRepository.findById(member.getId()).orElse(null);
 
+        assertThat(newMember).isNotNull();
         assertThat(newMember.getOrder()).contains(order);
     }
 }

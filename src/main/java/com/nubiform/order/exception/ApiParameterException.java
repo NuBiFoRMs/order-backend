@@ -12,12 +12,12 @@ import java.util.stream.Collectors;
 @Getter
 public class ApiParameterException extends ApiException {
 
-    private List<ErrorInfo> fields;
+    private final List<ErrorInfo> fields;
 
     public ApiParameterException(BindingResult bindingResult) {
         super(ApiError.INVALID_PARAMETER);
-        this.fields = bindingResult.getAllErrors().stream()
-                .map(error -> new ErrorInfo(error.getCode(), error.getObjectName(), error.getDefaultMessage()))
+        this.fields = bindingResult.getFieldErrors().stream()
+                .map(error -> new ErrorInfo(error.getCode(), error.getField(), error.getDefaultMessage()))
                 .collect(Collectors.toList());
     }
 
@@ -27,7 +27,7 @@ public class ApiParameterException extends ApiException {
 
     @AllArgsConstructor
     @Data
-    public class ErrorInfo {
+    public static class ErrorInfo {
         private String code;
         private String field;
         private String message;
