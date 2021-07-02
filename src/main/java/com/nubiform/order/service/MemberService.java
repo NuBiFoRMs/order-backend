@@ -33,7 +33,7 @@ public class MemberService {
     public MemberResponse getMember(String userid) {
         return memberRepository.findByNicknameOrEmail(userid, userid)
                 .map(member -> modelMapper.map(member, MemberResponse.class))
-                .orElseThrow(() -> new ApiException(ApiError.ERROR));
+                .orElseThrow(() -> new ApiException(ApiError.NO_DATA_FOUND));
     }
 
     public Page<MemberOrderResponse> getMembers(Pageable pageable, String username, String email) {
