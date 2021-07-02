@@ -27,9 +27,10 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrder(userid));
     }
 
-    @PostMapping
-    public ResponseEntity<OrderResponse> order(OrderRequest orderRequest) {
-        log.debug("order: {}", orderRequest);
+    @PostMapping(PATH_VARIABLE_USER_ID)
+    public ResponseEntity<OrderResponse> order(@PathVariable String userid, @RequestBody OrderRequest orderRequest) {
+        log.debug("order: {} {}", userid, orderRequest);
+        orderService.order(userid, orderRequest);
         return ResponseEntity.ok(new OrderResponse());
     }
 }
