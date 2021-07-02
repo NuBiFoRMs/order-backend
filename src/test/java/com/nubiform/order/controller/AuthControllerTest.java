@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nubiform.order.domain.Member;
 import com.nubiform.order.repository.MemberRepository;
 import com.nubiform.order.vo.request.SignUpRequest;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -28,6 +29,11 @@ class AuthControllerTest {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @AfterEach
+    void tearDown() {
+        memberRepository.deleteAll();
+    }
 
     @Test
     void signUpTest() throws Exception {
