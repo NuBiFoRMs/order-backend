@@ -103,6 +103,7 @@ class OrderControllerTest {
                 .andExpect(status().isOk());
 
         List<Order> orderList = orderRepository.findAll();
+
         assertThat(orderList)
                 .extracting("product").contains("newProductNickname");
     }
@@ -119,6 +120,7 @@ class OrderControllerTest {
                 .andExpect(status().isOk());
 
         List<Order> orderList = orderRepository.findAll();
+
         assertThat(orderList)
                 .extracting("product").contains("newProductEmail");
     }
