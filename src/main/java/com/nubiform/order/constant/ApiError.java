@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum ApiError {
 
     ERROR(1000, "error"),
-    INVALID_PARAMETER(1001, "invalid parameter");
+    INVALID_PARAMETER(1001, "invalid parameter"),
+    NO_DATA_FOUND(1002, "no data found");
 
     private final int code;
 
