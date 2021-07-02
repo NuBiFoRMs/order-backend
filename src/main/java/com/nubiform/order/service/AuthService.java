@@ -20,7 +20,7 @@ public class AuthService {
 
     public MemberResponse signUp(SignUpRequest signUpRequest) {
         Member member = modelMapper.map(signUpRequest, Member.class);
-        memberRepository.save(member);
-        return modelMapper.map(member, MemberResponse.class);
+        Member newMember = memberRepository.save(member);
+        return modelMapper.map(newMember, MemberResponse.class);
     }
 }
