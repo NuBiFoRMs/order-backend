@@ -1,10 +1,13 @@
 package com.nubiform.order.repository;
 
 import com.nubiform.order.domain.Member;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,9 +17,11 @@ class MemberRepositoryTest {
     @Autowired
     MemberRepository memberRepository;
 
-    @Test
-    public void memberSaveTest() {
-        Member member = Member.builder()
+    Member member;
+
+    @BeforeEach
+    void setUp() {
+        member = Member.builder()
                 .username("username")
                 .nickname("nickname")
                 .password("password")
@@ -25,26 +30,33 @@ class MemberRepositoryTest {
                 .gender("gender")
                 .build();
         memberRepository.save(member);
+    }
 
-        Member findMember = memberRepository.findById(member.getId()).orElse(null);
+    @Test
+    public void memberTest() {
+        Member memberByNickname = memberRepository.findByNickname(member.getNickname()).orElse(null);
+        assertNotNull(memberByNickname);
+        assertEquals(member.getNickname(), memberByNickname.getNickname());
 
-        assertNotNull(findMember);
-        assertEquals(member.getUsername(), findMember.getUsername());
+        Member memberByEmail = memberRepository.findByEmail(member.getEmail()).orElse(null);
+        assertNotNull(memberByEmail);
+        assertEquals(member.getEmail(), memberByEmail.getEmail());
+
+        Member memberByNicknameOrEmail = memberRepository.findByNicknameOrEmail(member.getNickname(), member.getEmail()).orElse(null);
+        assertNotNull(memberByNicknameOrEmail);
+        assertEquals(member.getNickname(), memberByNicknameOrEmail.getNickname());
+        assertEquals(member.getEmail(), memberByNicknameOrEmail.getEmail());
+
+        assertTrue(memberRepository.existsByNickname(member.getNickname()));
+        assertTrue(memberRepository.existsByEmail(member.getEmail()));
+
+        List<Member> memberByUsername = memberRepository.findByUsername(member.getUsername());
+        assertEquals(1, memberByUsername.size());
     }
 
     @Test
     public void memberUniqueTest() {
         Member member1 = Member.builder()
-                .username("username")
-                .nickname("nickname")
-                .password("password")
-                .phone("phone")
-                .email("email")
-                .gender("gender")
-                .build();
-        memberRepository.save(member1);
-
-        Member member2 = Member.builder()
                 .username("username")
                 .nickname("nickname1")
                 .password("password")
@@ -52,7 +64,7 @@ class MemberRepositoryTest {
                 .email("email1")
                 .gender("gender")
                 .build();
-        memberRepository.save(member2);
+        memberRepository.save(member1);
 
         assertEquals(2, memberRepository.findAll().size());
     }
@@ -64,21 +76,13 @@ class MemberRepositoryTest {
                 .nickname("nickname")
                 .password("password")
                 .phone("phone")
-                .email("email")
+                .email("email1")
                 .gender("gender")
                 .build();
         memberRepository.save(member1);
 
         assertThrows(DataIntegrityViolationException.class, () -> {
-            Member member2 = Member.builder()
-                    .username("username")
-                    .nickname("nickname")
-                    .password("password")
-                    .phone("phone")
-                    .email("email1")
-                    .gender("gender")
-                    .build();
-            memberRepository.saveAndFlush(member2);
+            memberRepository.findAll();
         });
     }
 
@@ -86,7 +90,7 @@ class MemberRepositoryTest {
     public void memberUniqueEmailTest() {
         Member member1 = Member.builder()
                 .username("username")
-                .nickname("nickname")
+                .nickname("nickname1")
                 .password("password")
                 .phone("phone")
                 .email("email")
@@ -95,15 +99,7 @@ class MemberRepositoryTest {
         memberRepository.save(member1);
 
         assertThrows(DataIntegrityViolationException.class, () -> {
-            Member member2 = Member.builder()
-                    .username("username")
-                    .nickname("nickname1")
-                    .password("password")
-                    .phone("phone")
-                    .email("email")
-                    .gender("gender")
-                    .build();
-            memberRepository.saveAndFlush(member2);
+            memberRepository.findAll();
         });
     }
 }

@@ -16,4 +16,8 @@ public class ApiException extends RuntimeException {
         super(message);
         this.apiError = apiError;
     }
+
+    public static ApiException of(ApiError apiError) {
+        return new ApiException(apiError);
+    }
 }
