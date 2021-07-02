@@ -1,5 +1,8 @@
 package com.nubiform.order.constant;
 
+import lombok.Getter;
+
+@Getter
 public enum ApiError {
 
     ERROR(1000, "error"),

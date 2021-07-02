@@ -1,5 +1,6 @@
 package com.nubiform.order.controller;
 
+import com.nubiform.order.constant.ApiError;
 import com.nubiform.order.exception.ApiException;
 import com.nubiform.order.exception.ApiParameterException;
 import com.nubiform.order.vo.response.ErrorResponse;
@@ -24,5 +25,12 @@ public class ErrorController {
         return ResponseEntity
                 .badRequest()
                 .body(new ErrorResponse<>(e.getApiError(), e.getLocalizedMessage(), e.getFields()));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> exception(Exception e) {
+        return ResponseEntity
+                .internalServerError()
+                .body(new ErrorResponse(ApiError.ERROR, e.getLocalizedMessage()));
     }
 }

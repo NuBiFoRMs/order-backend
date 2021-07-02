@@ -21,6 +21,10 @@ public class ApiParameterException extends ApiException {
                 .collect(Collectors.toList());
     }
 
+    public static ApiParameterException of(BindingResult bindingResult) {
+        return new ApiParameterException(bindingResult);
+    }
+
     @AllArgsConstructor
     @Data
     public class ErrorInfo {
