@@ -30,6 +30,7 @@ public class OrderService {
 
     private final ModelMapper modelMapper;
 
+    @Transactional(readOnly = true)
     public List<OrderResponse> getOrder(String userid) {
         return memberRepository.findByNicknameOrEmail(userid, userid)
                 .orElseThrow(() -> new ApiException(ApiError.NO_DATA_FOUND))

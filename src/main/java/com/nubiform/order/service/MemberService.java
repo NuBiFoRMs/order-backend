@@ -30,12 +30,14 @@ public class MemberService {
 
     private final ModelMapper modelMapper;
 
+    @Transactional(readOnly = true)
     public MemberResponse getMember(String userid) {
         return memberRepository.findByNicknameOrEmail(userid, userid)
                 .map(member -> modelMapper.map(member, MemberResponse.class))
                 .orElseThrow(() -> new ApiException(ApiError.NO_DATA_FOUND));
     }
 
+    @Transactional(readOnly = true)
     public Page<MemberOrderResponse> getMembers(Pageable pageable, String username, String email) {
         Function<Member, MemberOrderResponse> mapMemberOrder = member -> {
             OrderResponse orderResponse = member.getOrder().stream().max(Comparator.comparing(Order::getOrderDate))
