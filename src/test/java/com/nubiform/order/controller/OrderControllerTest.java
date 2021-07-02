@@ -16,9 +16,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static com.nubiform.order.controller.OrderController.API_V1_ORDERS_URI;
 import static com.nubiform.order.controller.OrderController.PATH_VARIABLE_USER_ID;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -92,24 +94,32 @@ class OrderControllerTest {
     @Test
     public void orderByNicknameTest() throws Exception {
         OrderRequest orderRequest = new OrderRequest();
-        orderRequest.setProduct("newProduct");
+        orderRequest.setProduct("newProductNickname");
 
         mockMvc.perform(post(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "nickname")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(orderRequest)))
                 .andDo(print())
                 .andExpect(status().isOk());
+
+        List<Order> orderList = orderRepository.findAll();
+        assertThat(orderList)
+                .extracting("product").contains("newProductNickname");
     }
 
     @Test
     public void orderByEmailTest() throws Exception {
         OrderRequest orderRequest = new OrderRequest();
-        orderRequest.setProduct("newProduct");
+        orderRequest.setProduct("newProductEmail");
 
         mockMvc.perform(post(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "email")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(orderRequest)))
                 .andDo(print())
                 .andExpect(status().isOk());
+
+        List<Order> orderList = orderRepository.findAll();
+        assertThat(orderList)
+                .extracting("product").contains("newProductEmail");
     }
 }
