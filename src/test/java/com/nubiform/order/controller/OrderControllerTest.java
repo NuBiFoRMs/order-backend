@@ -1,9 +1,11 @@
 package com.nubiform.order.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nubiform.order.domain.Member;
 import com.nubiform.order.domain.Order;
 import com.nubiform.order.repository.MemberRepository;
 import com.nubiform.order.repository.OrderRepository;
+import com.nubiform.order.vo.request.OrderRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,9 +16,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static com.nubiform.order.controller.OrderController.API_V1_ORDERS_URI;
 import static com.nubiform.order.controller.OrderController.PATH_VARIABLE_USER_ID;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -34,6 +38,9 @@ class OrderControllerTest {
 
     @Autowired
     OrderRepository orderRepository;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp() {
@@ -85,9 +92,36 @@ class OrderControllerTest {
     }
 
     @Test
-    public void orderTest() throws Exception {
-        mockMvc.perform(post(API_V1_ORDERS_URI)
-                .contentType(MediaType.APPLICATION_JSON))
+    public void orderByNicknameTest() throws Exception {
+        OrderRequest orderRequest = new OrderRequest();
+        orderRequest.setProduct("newProductNickname");
+
+        mockMvc.perform(post(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "nickname")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(orderRequest)))
+                .andDo(print())
                 .andExpect(status().isOk());
+
+        List<Order> orderList = orderRepository.findAll();
+
+        assertThat(orderList)
+                .extracting("product").contains("newProductNickname");
+    }
+
+    @Test
+    public void orderByEmailTest() throws Exception {
+        OrderRequest orderRequest = new OrderRequest();
+        orderRequest.setProduct("newProductEmail");
+
+        mockMvc.perform(post(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "email")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(orderRequest)))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        List<Order> orderList = orderRepository.findAll();
+
+        assertThat(orderList)
+                .extracting("product").contains("newProductEmail");
     }
 }
