@@ -30,6 +30,11 @@ class AuthControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    @AfterEach
+    void tearDown() {
+        memberRepository.deleteAll();
+    }
+
     @Test
     void signUpTest() throws Exception {
         SignUpRequest signUpRequest = SignUpRequest.builder()
@@ -51,11 +56,6 @@ class AuthControllerTest {
         assertThat(member)
                 .isNotNull()
                 .usingRecursiveComparison().ignoringFields("id", "order").isEqualTo(signUpRequest);
-    }
-
-    @AfterEach
-    void tearDown() {
-        
     }
 
     @Test
