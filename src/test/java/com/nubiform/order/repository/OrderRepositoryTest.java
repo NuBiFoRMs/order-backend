@@ -9,8 +9,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest
 class OrderRepositoryTest {
@@ -31,8 +29,8 @@ class OrderRepositoryTest {
 
         Order newOrder = orderRepository.findById(order.getId()).orElse(null);
 
-        assertNotNull(newOrder);
-        assertEquals(order.getProduct(), newOrder.getProduct());
+        assertThat(newOrder).isNotNull();
+        assertThat(newOrder.getProduct()).isEqualTo(order.getProduct());
     }
 
     @Test
