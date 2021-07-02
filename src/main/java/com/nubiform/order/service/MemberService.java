@@ -1,6 +1,7 @@
 package com.nubiform.order.service;
 
 import com.nubiform.order.constant.ApiError;
+import com.nubiform.order.domain.Member;
 import com.nubiform.order.domain.Order;
 import com.nubiform.order.exception.ApiException;
 import com.nubiform.order.repository.MemberRepository;
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
+import java.util.Objects;
+import java.util.function.Function;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -34,20 +37,24 @@ public class MemberService {
     }
 
     public Page<MemberOrderResponse> getMembers(Pageable pageable, String username, String email) {
-        return memberRepository.findByUsernameOrEmail(username, email, pageable)
-                .map(member -> {
-                    OrderResponse orderResponse = member.getOrder().stream()
-                            .sorted(Comparator.comparing(Order::getOrderDate).reversed())
-                            .findFirst()
-                            .map(order -> modelMapper.map(order, OrderResponse.class))
-                            .orElse(null);
+        Function<Member, MemberOrderResponse> mapMemberOrder = member -> {
+            OrderResponse orderResponse = member.getOrder().stream().max(Comparator.comparing(Order::getOrderDate))
+                    .map(order -> modelMapper.map(order, OrderResponse.class))
+                    .orElse(null);
 
-                    MemberResponse memberResponse = modelMapper.map(member, MemberResponse.class);
+            MemberResponse memberResponse = modelMapper.map(member, MemberResponse.class);
 
-                    return MemberOrderResponse.builder()
-                            .member(memberResponse)
-                            .lastOrder(orderResponse)
-                            .build();
-                });
+            return MemberOrderResponse.builder()
+                    .member(memberResponse)
+                    .lastOrder(orderResponse)
+                    .build();
+        };
+
+        if (Objects.isNull(username) && Objects.isNull(email))
+            return memberRepository.findAll(pageable)
+                    .map(mapMemberOrder);
+        else
+            return memberRepository.findByUsernameOrEmail(username, email, pageable)
+                    .map(mapMemberOrder);
     }
 }
