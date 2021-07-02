@@ -88,6 +88,7 @@ class SignUpTest {
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value(1001))
-                .andExpect(jsonPath("$.description").value("invalid parameter"));
+                .andExpect(jsonPath("$.description").value("invalid parameter"))
+                .andExpect(jsonPath("$.details.length()").value(2));
     }
 }
