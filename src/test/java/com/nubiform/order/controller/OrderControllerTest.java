@@ -24,6 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -67,6 +68,16 @@ class OrderControllerTest {
                 .build();
         order2.setMember(member);
         orderRepository.save(order2);
+
+        Member memberX = Member.builder()
+                .username("username")
+                .nickname("nicknameX")
+                .password("password")
+                .phone("phone")
+                .email("emailX")
+                .gender("gender")
+                .build();
+        memberRepository.save(memberX);
     }
 
     @AfterEach
@@ -80,7 +91,8 @@ class OrderControllerTest {
         mockMvc.perform(get(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "nickname")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2));
     }
 
     @Test
@@ -88,7 +100,27 @@ class OrderControllerTest {
         mockMvc.perform(get(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "email")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2));
+    }
+
+    @Test
+    public void getOrderEmptyTest() throws Exception {
+        mockMvc.perform(get(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "nicknameX")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(0));
+    }
+
+    @Test
+    public void getOrderNoDataTest() throws Exception {
+        mockMvc.perform(get(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "empty")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(1002))
+                .andExpect(jsonPath("$.description").value("no data found"));
     }
 
     @Test
@@ -123,5 +155,19 @@ class OrderControllerTest {
 
         assertThat(orderList)
                 .extracting("product").contains("newProductEmail");
+    }
+
+    @Test
+    public void orderNoDataTest() throws Exception {
+        OrderRequest orderRequest = new OrderRequest();
+        orderRequest.setProduct("newProductEmail");
+
+        mockMvc.perform(post(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "noData")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(orderRequest)))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(1002))
+                .andExpect(jsonPath("$.description").value("no data found"));
     }
 }
