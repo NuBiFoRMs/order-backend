@@ -1,11 +1,13 @@
 package com.nubiform.order.vo.response;
 
+import lombok.Builder;
 import lombok.Data;
 
+@Builder
 @Data
 public class MemberOrderResponse {
 
-    MemberResponse member;
+    private MemberResponse member;
 
-    OrderResponse lastOrder;
+    private OrderResponse lastOrder;
 }

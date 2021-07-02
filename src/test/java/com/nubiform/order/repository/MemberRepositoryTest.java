@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
@@ -49,9 +47,6 @@ class MemberRepositoryTest {
 
         assertTrue(memberRepository.existsByNickname(member.getNickname()));
         assertTrue(memberRepository.existsByEmail(member.getEmail()));
-
-        List<Member> memberByUsername = memberRepository.findByUsername(member.getUsername());
-        assertEquals(1, memberByUsername.size());
     }
 
     @Test
