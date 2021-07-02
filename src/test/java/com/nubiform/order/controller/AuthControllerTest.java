@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nubiform.order.domain.Member;
 import com.nubiform.order.repository.MemberRepository;
 import com.nubiform.order.vo.request.SignUpRequest;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -50,6 +51,11 @@ class AuthControllerTest {
         assertThat(member)
                 .isNotNull()
                 .usingRecursiveComparison().ignoringFields("id", "order").isEqualTo(signUpRequest);
+    }
+
+    @AfterEach
+    void tearDown() {
+        
     }
 
     @Test

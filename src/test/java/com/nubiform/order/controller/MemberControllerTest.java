@@ -2,6 +2,7 @@ package com.nubiform.order.controller;
 
 import com.nubiform.order.domain.Member;
 import com.nubiform.order.repository.MemberRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,11 @@ class MemberControllerTest {
                 .gender("gender")
                 .build();
         memberRepository.save(member);
+    }
+
+    @AfterEach
+    void tearDown() {
+        memberRepository.deleteAll();
     }
 
     @Test
