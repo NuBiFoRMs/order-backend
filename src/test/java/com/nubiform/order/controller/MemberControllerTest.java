@@ -101,6 +101,16 @@ class MemberControllerTest {
     }
 
     @Test
+    public void getMemberEmpty() throws Exception {
+        mockMvc.perform(get(API_V1_MEMBERS_URI + PATH_VARIABLE_USER_ID, "empty")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(1002))
+                .andExpect(jsonPath("$.description").value("no data found"));
+    }
+
+    @Test
     public void getMembersTest() throws Exception {
         mockMvc.perform(get(API_V1_MEMBERS_URI)
                 .contentType(MediaType.APPLICATION_JSON))
