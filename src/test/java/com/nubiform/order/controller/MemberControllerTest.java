@@ -19,11 +19,16 @@ import static com.nubiform.order.controller.MemberController.API_V1_MEMBERS_URI;
 import static com.nubiform.order.controller.MemberController.PATH_VARIABLE_USER_ID;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 class MemberControllerTest {
+
+    public static final String PARAM_USERNAME = "username";
+    public static final String PARAM_EMAIL = "email";
+    public static final String PARAM_SORT = "sort";
 
     @Autowired
     MockMvc mockMvc;
@@ -59,6 +64,16 @@ class MemberControllerTest {
                 .build();
         order2.setMember(member);
         orderRepository.save(order2);
+
+        Member memberX = Member.builder()
+                .username("username")
+                .nickname("nicknameX")
+                .password("password")
+                .phone("phone")
+                .email("emailX")
+                .gender("gender")
+                .build();
+        memberRepository.save(memberX);
     }
 
     @AfterEach
@@ -72,7 +87,8 @@ class MemberControllerTest {
         mockMvc.perform(get(API_V1_MEMBERS_URI + PATH_VARIABLE_USER_ID, "nickname")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nickname").value("nickname"));
     }
 
     @Test
@@ -80,7 +96,8 @@ class MemberControllerTest {
         mockMvc.perform(get(API_V1_MEMBERS_URI + PATH_VARIABLE_USER_ID, "email")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.email").value("email"));
     }
 
     @Test
@@ -88,34 +105,59 @@ class MemberControllerTest {
         mockMvc.perform(get(API_V1_MEMBERS_URI)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content.length()").value(2));
     }
 
     @Test
-    public void getMembersByPageTest() throws Exception {
+    public void getMembersByPageAscTest() throws Exception {
         mockMvc.perform(get(API_V1_MEMBERS_URI)
-                .param("page", "0")
-                .param("size", "10")
+                .param(PARAM_SORT, "nickname")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].member.nickname").value("nickname"));
+    }
+
+    @Test
+    public void getMembersByPageDescTest() throws Exception {
+        mockMvc.perform(get(API_V1_MEMBERS_URI)
+                .param(PARAM_SORT, "nickname,desc")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].member.nickname").value("nicknameX"));
     }
 
     @Test
     public void getMembersByUsernameTest() throws Exception {
         mockMvc.perform(get(API_V1_MEMBERS_URI)
-                .param("username", "username")
+                .param(PARAM_USERNAME, "username")
+                .param(PARAM_SORT, "nickname")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].lastOrder.product").value("product2"))
+                .andExpect(jsonPath("$.content[1].lastOrder").doesNotExist());
     }
 
     @Test
     public void getMembersByEmailTest() throws Exception {
         mockMvc.perform(get(API_V1_MEMBERS_URI)
-                .param("email", "email")
+                .param(PARAM_EMAIL, "email")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].lastOrder.product").value("product2"));
+    }
+
+    @Test
+    public void getMembersEmptyTest() throws Exception {
+        mockMvc.perform(get(API_V1_MEMBERS_URI)
+                .param(PARAM_USERNAME, "empty")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").isEmpty());
     }
 }
