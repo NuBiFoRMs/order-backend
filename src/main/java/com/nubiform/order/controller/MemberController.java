@@ -1,6 +1,7 @@
 package com.nubiform.order.controller;
 
 import com.nubiform.order.service.MemberService;
+import com.nubiform.order.vo.response.MemberOrderResponse;
 import com.nubiform.order.vo.response.MemberResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,10 +9,7 @@ import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -25,9 +23,9 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping
-    public ResponseEntity<Page<MemberResponse>> getMembers(@ParameterObject Pageable pageable) {
-        log.debug("getOrders: {}", pageable);
-        return ResponseEntity.ok(memberService.getMembers(pageable));
+    public ResponseEntity<Page<MemberOrderResponse>> getMembers(@ParameterObject Pageable pageable, @RequestParam(required = false) String username, @RequestParam(required = false) String email) {
+        log.debug("getMembers: {}", pageable);
+        return ResponseEntity.ok(memberService.getMembers(pageable, username, email));
     }
 
     @GetMapping(PATH_VARIABLE_USER_ID)
