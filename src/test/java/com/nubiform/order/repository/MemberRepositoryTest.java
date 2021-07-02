@@ -76,9 +76,7 @@ class MemberRepositoryTest {
                 .build();
         memberRepository.save(member1);
 
-        assertThrows(DataIntegrityViolationException.class, () -> {
-            memberRepository.findAll();
-        });
+        assertThrows(DataIntegrityViolationException.class, () -> memberRepository.findAll());
     }
 
     @Test
@@ -93,8 +91,6 @@ class MemberRepositoryTest {
                 .build();
         memberRepository.save(member1);
 
-        assertThrows(DataIntegrityViolationException.class, () -> {
-            memberRepository.findAll();
-        });
+        assertThrows(DataIntegrityViolationException.class, () -> memberRepository.findAll());
     }
 }
