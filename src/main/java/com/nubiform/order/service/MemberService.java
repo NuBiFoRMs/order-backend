@@ -13,12 +13,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -26,7 +28,7 @@ public class MemberService {
     private final ModelMapper modelMapper;
 
     public MemberResponse getMember(String userid) {
-        return memberRepository.findByNickname(userid)
+        return memberRepository.findByNicknameOrEmail(userid, userid)
                 .map(member -> modelMapper.map(member, MemberResponse.class))
                 .orElseThrow(() -> new ApiException(ApiError.ERROR));
     }

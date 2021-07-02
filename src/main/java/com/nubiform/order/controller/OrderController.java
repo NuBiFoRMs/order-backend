@@ -29,7 +29,7 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<OrderResponse> order(OrderRequest orderRequest) {
-        log.debug("getOrder: {}", orderRequest);
+        log.debug("order: {}", orderRequest);
         return ResponseEntity.ok(new OrderResponse());
     }
 }

@@ -22,15 +22,15 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @GetMapping
-    public ResponseEntity<Page<MemberOrderResponse>> getMembers(@ParameterObject Pageable pageable, @RequestParam(required = false) String username, @RequestParam(required = false) String email) {
-        log.debug("getMembers: {}", pageable);
-        return ResponseEntity.ok(memberService.getMembers(pageable, username, email));
-    }
-
     @GetMapping(PATH_VARIABLE_USER_ID)
     public ResponseEntity<MemberResponse> getMember(@PathVariable String userid) {
         log.debug("getMember: {}", userid);
         return ResponseEntity.ok(memberService.getMember(userid));
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<MemberOrderResponse>> getMembers(@ParameterObject Pageable pageable, @RequestParam(required = false) String username, @RequestParam(required = false) String email) {
+        log.debug("getMembers: {}", pageable);
+        return ResponseEntity.ok(memberService.getMembers(pageable, username, email));
     }
 }
