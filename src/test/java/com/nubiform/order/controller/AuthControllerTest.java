@@ -47,7 +47,9 @@ class AuthControllerTest {
 
         Member member = memberRepository.findByEmail(signUpRequest.getEmail()).orElse(null);
 
-        assertThat(member).isNotNull();
+        assertThat(member)
+                .isNotNull()
+                .usingRecursiveComparison().ignoringFields("id", "order").isEqualTo(signUpRequest);
     }
 
     @Test
