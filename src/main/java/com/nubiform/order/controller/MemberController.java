@@ -23,7 +23,7 @@ public class MemberController {
 
     @GetMapping
     public ResponseEntity<List<MemberResponse>> getMembers(@ParameterObject Pageable pageable) {
-        log.debug("getOrders: {} {} {}", pageable);
+        log.debug("getOrders: {}", pageable);
         return ResponseEntity.ok(new ArrayList<>());
     }
 
