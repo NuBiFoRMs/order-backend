@@ -17,4 +17,5 @@ springdoc.swagger-ui.path: /swagger-ui.html
 
 logging:
   level:
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
     com.nubiform: debug
