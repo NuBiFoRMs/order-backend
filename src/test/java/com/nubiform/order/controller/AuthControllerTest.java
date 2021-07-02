@@ -59,6 +59,33 @@ class AuthControllerTest {
     }
 
     @Test
+    void signUpDuplicatedTest() throws Exception {
+        Member member = Member.builder()
+                .username("username")
+                .nickname("nickname")
+                .password("Password1!")
+                .phone("123456789")
+                .email("email@email.com")
+                .gender("gender")
+                .build();
+        memberRepository.save(member);
+
+        SignUpRequest signUpRequest = SignUpRequest.builder()
+                .username("username")
+                .nickname("nickname")
+                .password("Password1!")
+                .phone("123456789")
+                .email("email@email.com")
+                .gender("gender")
+                .build();
+
+        mockMvc.perform(post(API_V1_AUTH_URI + SIGN_UP)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(signUpRequest)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void signInTest() throws Exception {
         mockMvc.perform(post(API_V1_AUTH_URI + SIGN_IN)
                 .contentType(MediaType.APPLICATION_JSON))
