@@ -15,6 +15,10 @@ public class ErrorResponse<T> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T details;
 
+    public ErrorResponse(ApiError apiError, String message) {
+        this(apiError, message, null);
+    }
+    
     public ErrorResponse(ApiError apiError, String message, T details) {
         this.apiError = apiError;
         this.message = message;
