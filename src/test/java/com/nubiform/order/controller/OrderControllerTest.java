@@ -47,12 +47,19 @@ class OrderControllerTest {
                 .build();
         memberRepository.save(member);
 
-        Order order = Order.builder()
-                .product("product")
+        Order order1 = Order.builder()
+                .product("product1")
                 .orderDate(LocalDateTime.now())
                 .build();
-        order.setMember(member);
-        orderRepository.save(order);
+        order1.setMember(member);
+        orderRepository.save(order1);
+
+        Order order2 = Order.builder()
+                .product("product2")
+                .orderDate(LocalDateTime.now())
+                .build();
+        order2.setMember(member);
+        orderRepository.save(order2);
     }
 
     @AfterEach
@@ -65,6 +72,7 @@ class OrderControllerTest {
     public void getOrdersTest() throws Exception {
         mockMvc.perform(get("/api/v1/orders")
                 .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -85,6 +93,7 @@ class OrderControllerTest {
                 .param("username", "username")
                 .param("email", "email")
                 .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
                 .andExpect(status().isOk());
     }
 
