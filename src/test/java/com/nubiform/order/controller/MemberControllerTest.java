@@ -1,5 +1,8 @@
 package com.nubiform.order.controller;
 
+import com.nubiform.order.domain.Member;
+import com.nubiform.order.repository.MemberRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,11 +22,25 @@ class MemberControllerTest {
     @Autowired
     MockMvc mockMvc;
 
+    @Autowired
+    MemberRepository memberRepository;
+
+    @BeforeEach
+    void setUp() {
+        Member member = Member.builder()
+                .username("username")
+                .nickname("nickname")
+                .password("password")
+                .phone("phone")
+                .email("email")
+                .gender("gender")
+                .build();
+        memberRepository.save(member);
+    }
+
     @Test
     public void getMembersTest() throws Exception {
         mockMvc.perform(get(API_V1_MEMBERS_URI)
-                .param("page", "0")
-                .param("size", "10")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
@@ -39,7 +56,7 @@ class MemberControllerTest {
 
     @Test
     public void getMemberTest() throws Exception {
-        mockMvc.perform(get(API_V1_MEMBERS_URI + PATH_VARIABLE_USER_ID, 1)
+        mockMvc.perform(get(API_V1_MEMBERS_URI + PATH_VARIABLE_USER_ID, "nickname")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
