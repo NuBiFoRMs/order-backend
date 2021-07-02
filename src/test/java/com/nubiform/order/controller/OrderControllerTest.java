@@ -69,37 +69,16 @@ class OrderControllerTest {
     }
 
     @Test
-    public void getOrdersTest() throws Exception {
-        mockMvc.perform(get("/api/v1/orders")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void getOrdersPageTest() throws Exception {
-        mockMvc.perform(get(API_V1_ORDERS_URI)
-                .param("page", "0")
-                .param("size", "10")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void getOrdersPageAndParamsTest() throws Exception {
-        mockMvc.perform(get(API_V1_ORDERS_URI)
-                .param("page", "0")
-                .param("size", "10")
-                .param("username", "username")
-                .param("email", "email")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void getOrderTest() throws Exception {
+    public void getOrderByNicknameTest() throws Exception {
         mockMvc.perform(get(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "nickname")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getOrderByEmailTest() throws Exception {
+        mockMvc.perform(get(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "email")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
