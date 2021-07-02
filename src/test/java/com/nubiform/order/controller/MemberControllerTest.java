@@ -101,8 +101,8 @@ class MemberControllerTest {
     }
 
     @Test
-    public void getMemberEmpty() throws Exception {
-        mockMvc.perform(get(API_V1_MEMBERS_URI + PATH_VARIABLE_USER_ID, "empty")
+    public void getMemberNoDataTest() throws Exception {
+        mockMvc.perform(get(API_V1_MEMBERS_URI + PATH_VARIABLE_USER_ID, "noData")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
