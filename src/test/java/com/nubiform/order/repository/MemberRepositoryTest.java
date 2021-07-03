@@ -66,31 +66,35 @@ class MemberRepositoryTest {
 
     @Test
     public void memberUniqueNicknameTest() {
-        Member member1 = Member.builder()
-                .username("username")
-                .nickname("nickname")
-                .password("password")
-                .phone("phone")
-                .email("email1")
-                .gender("gender")
-                .build();
-        memberRepository.save(member1);
+        assertThrows(DataIntegrityViolationException.class, () -> {
+            Member member1 = Member.builder()
+                    .username("username")
+                    .nickname("nickname")
+                    .password("password")
+                    .phone("phone")
+                    .email("email1")
+                    .gender("gender")
+                    .build();
+            memberRepository.save(member1);
 
-        assertThrows(DataIntegrityViolationException.class, () -> memberRepository.findAll());
+            memberRepository.findAll();
+        });
     }
 
     @Test
     public void memberUniqueEmailTest() {
-        Member member1 = Member.builder()
-                .username("username")
-                .nickname("nickname1")
-                .password("password")
-                .phone("phone")
-                .email("email")
-                .gender("gender")
-                .build();
-        memberRepository.save(member1);
+        assertThrows(DataIntegrityViolationException.class, () -> {
+            Member member1 = Member.builder()
+                    .username("username")
+                    .nickname("nickname1")
+                    .password("password")
+                    .phone("phone")
+                    .email("email")
+                    .gender("gender")
+                    .build();
+            memberRepository.save(member1);
 
-        assertThrows(DataIntegrityViolationException.class, () -> memberRepository.findAll());
+            memberRepository.findAll();
+        });
     }
 }
