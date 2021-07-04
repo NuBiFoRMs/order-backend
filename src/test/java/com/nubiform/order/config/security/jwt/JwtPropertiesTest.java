@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 class JwtPropertiesTest {
 
-    public static final String SECRET = "order-backend-8a79f833-6c60-4c3e-a5a5-6420136e1861";
+    public static final String SECRET = "OrderManagementProject|com.nubiform|order-backend|8a79f833-6c60-4c3e-a5a5-6420136e1861";
 
     @Autowired
     JwtProperties jwtProperties;

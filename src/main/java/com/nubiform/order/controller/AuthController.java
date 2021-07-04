@@ -45,9 +45,9 @@ public class AuthController {
     }
 
     @PostMapping(SIGN_IN)
-    public ResponseEntity signIn(SignInRequest signInRequest) {
+    public ResponseEntity<String> signIn(@RequestBody SignInRequest signInRequest) {
         log.debug("signIn: {}", signInRequest);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(authService.signIn(signInRequest));
     }
 
     @PostMapping(SIGN_OUT)
