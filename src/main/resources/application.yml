@@ -1,1 +1,23 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
 
+springdoc.swagger-ui.path: /swagger-ui.html
+
+app:
+  datasource:
+    read-only:
+      url: jdbc:mysql://localhost:3306/order_db
+      username: readonly
+      password: readonly
+
+    write:
+      url: jdbc:mysql://localhost:3306/order_db
+      username: root
+      password: root
+
+jwt:
+  secret: T3JkZXJNYW5hZ2VtZW50UHJvamVjdHxjb20ubnViaWZvcm18b3JkZXItYmFja2VuZHw4YTc5ZjgzMy02YzYwLTRjM2UtYTVhNS02NDIwMTM2ZTE4NjE=
+  token-validity-in-second: 1800
