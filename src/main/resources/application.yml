@@ -19,5 +19,5 @@ app:
       password: root
 
 jwt:
-  secret: Y29tLm51Ymlmb3JtLnNwcmluZy1zZWN1cml0eS1yZXN0LWxvZ2luLThhNzlmODMzLTZjNjAtNGMzZS1hNWE1LTY0MjAxMzZlMTg2MQ==
+  secret: b3JkZXItYmFja2VuZC04YTc5ZjgzMy02YzYwLTRjM2UtYTVhNS02NDIwMTM2ZTE4NjE=
   token-validity-in-second: 1800
