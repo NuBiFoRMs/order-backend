@@ -3,17 +3,8 @@ spring:
     hibernate:
       ddl-auto: update
     open-in-view: false
-    properties:
-      hibernate:
-        format_sql: true
-        show_sql: true
 
 springdoc.swagger-ui.path: /swagger-ui.html
-
-logging:
-  level:
-    org.hibernate.type.descriptor.sql.BasicBinder: trace
-    com.nubiform: debug
 
 app:
   datasource:
@@ -26,3 +17,7 @@ app:
       url: jdbc:mysql://localhost:3306/order_db
       username: root
       password: root
+
+jwt:
+  secret: Y29tLm51Ymlmb3JtLnNwcmluZy1zZWN1cml0eS1yZXN0LWxvZ2luLThhNzlmODMzLTZjNjAtNGMzZS1hNWE1LTY0MjAxMzZlMTg2MQ==
+  token-validity-in-second: 1800
