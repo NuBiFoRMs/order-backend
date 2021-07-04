@@ -6,6 +6,7 @@ import com.nubiform.order.validator.SignUpRequestValidator;
 import com.nubiform.order.vo.request.SignInRequest;
 import com.nubiform.order.vo.request.SignUpRequest;
 import com.nubiform.order.vo.response.MemberResponse;
+import com.nubiform.order.vo.response.TokenResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +46,7 @@ public class AuthController {
     }
 
     @PostMapping(SIGN_IN)
-    public ResponseEntity<String> signIn(@RequestBody SignInRequest signInRequest) {
+    public ResponseEntity<TokenResponse> signIn(@RequestBody SignInRequest signInRequest) {
         log.debug("signIn: {}", signInRequest);
         return ResponseEntity.ok(authService.signIn(signInRequest));
     }

@@ -7,6 +7,7 @@ import com.nubiform.order.repository.MemberRepository;
 import com.nubiform.order.vo.request.SignInRequest;
 import com.nubiform.order.vo.request.SignUpRequest;
 import com.nubiform.order.vo.response.MemberResponse;
+import com.nubiform.order.vo.response.TokenResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -42,7 +43,7 @@ public class AuthService implements UserDetailsService {
         return modelMapper.map(newMember, MemberResponse.class);
     }
 
-    public String signIn(SignInRequest signInRequest) {
+    public TokenResponse signIn(SignInRequest signInRequest) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(signInRequest.getUserid(), signInRequest.getPassword());
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
@@ -52,7 +53,9 @@ public class AuthService implements UserDetailsService {
 
         log.debug("success login: {}", token);
 
-        return token;
+        return TokenResponse.builder()
+                .token(token)
+                .build();
     }
 
     @Override
