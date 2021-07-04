@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -31,6 +32,9 @@ class SignUpTest {
 
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -58,9 +62,13 @@ class SignUpTest {
 
         Member member = memberRepository.findByEmail(signUpRequest.getEmail()).orElse(null);
 
+
         assertThat(member)
                 .isNotNull()
-                .usingRecursiveComparison().ignoringFields("id", "order").isEqualTo(signUpRequest);
+                .usingRecursiveComparison().ignoringFields("id", "password", "order").isEqualTo(signUpRequest);
+
+        assertThat(passwordEncoder.matches(signUpRequest.getPassword(), member.getPassword()))
+                .isTrue();
     }
 
     @Test
