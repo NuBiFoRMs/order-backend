@@ -7,6 +7,9 @@ import com.nubiform.order.vo.request.SignInRequest;
 import com.nubiform.order.vo.request.SignUpRequest;
 import com.nubiform.order.vo.response.MemberResponse;
 import com.nubiform.order.vo.response.TokenResponse;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@SecurityScheme(type = SecuritySchemeType.HTTP, scheme = "Bearer", bearerFormat = "JWT", name = "Authorization", in = SecuritySchemeIn.HEADER)
 @Slf4j
 @RequiredArgsConstructor
 @RestController

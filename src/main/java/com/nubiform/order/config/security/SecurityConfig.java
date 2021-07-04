@@ -3,6 +3,7 @@ package com.nubiform.order.config.security;
 import com.nubiform.order.config.security.jwt.JwtAccessDeniedHandler;
 import com.nubiform.order.config.security.jwt.JwtAuthenticationEntryPoint;
 import com.nubiform.order.config.security.jwt.JwtAuthenticationFilter;
+import com.nubiform.order.config.security.jwt.JwtTokenProvider;
 import com.nubiform.order.controller.AuthController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${spring.security.debug:false}")
     boolean debugMode;
+
+    private final JwtTokenProvider jwtTokenProvider;
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
@@ -52,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
