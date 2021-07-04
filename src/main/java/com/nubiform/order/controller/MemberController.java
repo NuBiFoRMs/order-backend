@@ -12,7 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@SecurityRequirement(name = "Authorization")
+import static com.nubiform.order.config.security.jwt.JwtConstant.AUTHORIZATION_HEADER;
+
+@SecurityRequirement(name = AUTHORIZATION_HEADER)
 @Slf4j
 @RequiredArgsConstructor
 @RestController

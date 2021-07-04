@@ -15,12 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.nubiform.order.config.security.jwt.JwtConstant.AUTHORIZATION_HEADER;
+import static com.nubiform.order.config.security.jwt.JwtConstant.BEARER;
+
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends GenericFilterBean {
-
-    public static final String AUTHORIZATION_HEADER = "Authorization";
-    public static final String BEARER = "Bearer ";
 
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -36,7 +36,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         if (org.springframework.util.StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            httpServletResponse.setHeader(AUTHORIZATION_HEADER, BEARER + token);
+            httpServletResponse.setHeader(AUTHORIZATION_HEADER, String.join(" ", BEARER, token));
         }
 
         chain.doFilter(request, response);
@@ -45,7 +45,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
         if (StringUtils.isNotEmpty(bearerToken) && StringUtils.startsWith(bearerToken, BEARER)) {
-            return bearerToken.replace(BEARER, "");
+            return bearerToken.replace(BEARER, "").trim();
         }
         return null;
     }

@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@SecurityRequirement(name = "Authorization")
+import static com.nubiform.order.config.security.jwt.JwtConstant.AUTHORIZATION_HEADER;
+
+@SecurityRequirement(name = AUTHORIZATION_HEADER)
 @Slf4j
 @RequiredArgsConstructor
 @RestController

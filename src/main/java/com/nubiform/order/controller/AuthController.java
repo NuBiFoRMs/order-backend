@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@SecurityScheme(type = SecuritySchemeType.HTTP, scheme = "Bearer", bearerFormat = "JWT", name = "Authorization", in = SecuritySchemeIn.HEADER)
+import static com.nubiform.order.config.security.jwt.JwtConstant.*;
+
+@SecurityScheme(type = SecuritySchemeType.HTTP, scheme = BEARER, bearerFormat = JWT, name = AUTHORIZATION_HEADER, in = SecuritySchemeIn.HEADER)
 @Slf4j
 @RequiredArgsConstructor
 @RestController
