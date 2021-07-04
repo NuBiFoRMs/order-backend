@@ -1,5 +1,6 @@
 package com.nubiform.order.config.security;
 
+import com.nubiform.order.config.security.jwt.JwtConfigure;
 import com.nubiform.order.controller.AuthController;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,8 +24,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .cors().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         http.authorizeRequests()
                 .mvcMatchers(AuthController.API_V1_AUTH_URI + "/**").permitAll()
                 .anyRequest().authenticated();
+
+        http.apply(new JwtConfigure());
     }
 }
