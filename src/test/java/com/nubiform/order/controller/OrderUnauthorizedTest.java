@@ -13,27 +13,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static com.nubiform.order.controller.OrderController.API_V1_ORDERS_URI;
 import static com.nubiform.order.controller.OrderController.PATH_VARIABLE_USER_ID;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
-@WithMockUser("nickname")
-class OrderControllerTest {
+class OrderUnauthorizedTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -95,8 +90,7 @@ class OrderControllerTest {
         mockMvc.perform(get(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "nickname")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(2));
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -104,8 +98,7 @@ class OrderControllerTest {
         mockMvc.perform(get(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "email")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(2));
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -113,8 +106,7 @@ class OrderControllerTest {
         mockMvc.perform(get(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "nicknameX")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(0));
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -122,25 +114,42 @@ class OrderControllerTest {
         mockMvc.perform(get(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "empty")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(1002))
-                .andExpect(jsonPath("$.description").value("no data found"));
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
-    public void orderTest() throws Exception {
+    public void orderByNicknameTest() throws Exception {
         OrderRequest orderRequest = new OrderRequest();
         orderRequest.setProduct("newProductNickname");
 
-        mockMvc.perform(post(API_V1_ORDERS_URI)
+        mockMvc.perform(post(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "nickname")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(orderRequest)))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isUnauthorized());
+    }
 
-        List<Order> orderList = orderRepository.findAll();
+    @Test
+    public void orderByEmailTest() throws Exception {
+        OrderRequest orderRequest = new OrderRequest();
+        orderRequest.setProduct("newProductEmail");
 
-        assertThat(orderList)
-                .extracting("product").contains("newProductNickname");
+        mockMvc.perform(post(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "email")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(orderRequest)))
+                .andDo(print())
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void orderNoDataTest() throws Exception {
+        OrderRequest orderRequest = new OrderRequest();
+        orderRequest.setProduct("newProductEmail");
+
+        mockMvc.perform(post(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "noData")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(orderRequest)))
+                .andDo(print())
+                .andExpect(status().isUnauthorized());
     }
 }

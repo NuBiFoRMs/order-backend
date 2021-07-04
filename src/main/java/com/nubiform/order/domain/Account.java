@@ -1,5 +1,6 @@
 package com.nubiform.order.domain;
 
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -7,6 +8,7 @@ import org.springframework.security.core.userdetails.User;
 import java.util.Collection;
 import java.util.List;
 
+@Getter
 public class Account extends User {
 
     private Member member;

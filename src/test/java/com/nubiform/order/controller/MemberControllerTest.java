@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser("nickname")
 class MemberControllerTest {
 
     public static final String PARAM_USERNAME = "username";
