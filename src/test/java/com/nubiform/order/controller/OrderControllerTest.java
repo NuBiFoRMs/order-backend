@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser("nickname")
 class OrderControllerTest {
 
     @Autowired
@@ -128,11 +128,11 @@ class OrderControllerTest {
     }
 
     @Test
-    public void orderByNicknameTest() throws Exception {
+    public void orderTest() throws Exception {
         OrderRequest orderRequest = new OrderRequest();
         orderRequest.setProduct("newProductNickname");
 
-        mockMvc.perform(post(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "nickname")
+        mockMvc.perform(post(API_V1_ORDERS_URI)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(orderRequest)))
                 .andDo(print())
@@ -142,36 +142,5 @@ class OrderControllerTest {
 
         assertThat(orderList)
                 .extracting("product").contains("newProductNickname");
-    }
-
-    @Test
-    public void orderByEmailTest() throws Exception {
-        OrderRequest orderRequest = new OrderRequest();
-        orderRequest.setProduct("newProductEmail");
-
-        mockMvc.perform(post(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "email")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(orderRequest)))
-                .andDo(print())
-                .andExpect(status().isOk());
-
-        List<Order> orderList = orderRepository.findAll();
-
-        assertThat(orderList)
-                .extracting("product").contains("newProductEmail");
-    }
-
-    @Test
-    public void orderNoDataTest() throws Exception {
-        OrderRequest orderRequest = new OrderRequest();
-        orderRequest.setProduct("newProductEmail");
-
-        mockMvc.perform(post(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "noData")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(orderRequest)))
-                .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(1002))
-                .andExpect(jsonPath("$.description").value("no data found"));
     }
 }

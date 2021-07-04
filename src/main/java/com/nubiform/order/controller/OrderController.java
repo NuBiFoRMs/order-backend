@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,9 +33,9 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrder(userid));
     }
 
-    @PostMapping(PATH_VARIABLE_USER_ID)
-    public ResponseEntity<OrderResponse> order(@PathVariable String userid, @RequestBody OrderRequest orderRequest) {
-        log.debug("order: {} {}", userid, orderRequest);
-        return ResponseEntity.ok(orderService.order(userid, orderRequest));
+    @PostMapping
+    public ResponseEntity<OrderResponse> order(@AuthenticationPrincipal User user, @RequestBody OrderRequest orderRequest) {
+        log.debug("order: {} {}", user, orderRequest);
+        return ResponseEntity.ok(orderService.order(user.getUsername(), orderRequest));
     }
 }

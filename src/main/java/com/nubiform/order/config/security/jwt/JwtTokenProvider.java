@@ -1,5 +1,6 @@
 package com.nubiform.order.config.security.jwt;
 
+import com.nubiform.order.domain.Account;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -67,7 +68,7 @@ public class JwtTokenProvider implements InitializingBean {
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 
-        User principal = new User(claims.getSubject(), "", authorities);
+        User principal = new Account(claims.getSubject(), "", authorities);
         log.debug("principal: {}", principal);
 
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
