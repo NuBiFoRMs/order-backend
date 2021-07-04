@@ -7,7 +7,9 @@ public enum ApiError {
 
     ERROR(1000, "error"),
     INVALID_PARAMETER(1001, "invalid parameter"),
-    NO_DATA_FOUND(1002, "no data found");
+    NO_DATA_FOUND(1002, "no data found"),
+    UNAUTHORIZED(1003, "unauthorized"),
+    FORBIDDEN(1004, "forbidden");
 
     private final int code;
 
