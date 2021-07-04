@@ -30,9 +30,10 @@ public class OrderService {
 
     private final ModelMapper modelMapper;
 
+    @Transactional(readOnly = true)
     public List<OrderResponse> getOrder(String userid) {
         return memberRepository.findByNicknameOrEmail(userid, userid)
-                .orElseThrow(() -> new ApiException(ApiError.NO_DATA_FOUND))
+                .orElseThrow(() -> ApiException.of(ApiError.NO_DATA_FOUND))
                 .getOrder().stream()
                 .map(order -> modelMapper.map(order, OrderResponse.class))
                 .collect(Collectors.toList());
@@ -40,7 +41,7 @@ public class OrderService {
 
     public OrderResponse order(String userid, OrderRequest orderRequest) {
         Member member = memberRepository.findByNicknameOrEmail(userid, userid)
-                .orElseThrow(() -> new ApiException(ApiError.NO_DATA_FOUND));
+                .orElseThrow(() -> ApiException.of(ApiError.NO_DATA_FOUND));
         Order order = modelMapper.map(orderRequest, Order.class);
         order.setMember(member);
         order.setOrderDate(LocalDateTime.now());
