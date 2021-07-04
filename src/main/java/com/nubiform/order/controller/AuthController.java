@@ -6,6 +6,10 @@ import com.nubiform.order.validator.SignUpRequestValidator;
 import com.nubiform.order.vo.request.SignInRequest;
 import com.nubiform.order.vo.request.SignUpRequest;
 import com.nubiform.order.vo.response.MemberResponse;
+import com.nubiform.order.vo.response.TokenResponse;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +19,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static com.nubiform.order.config.security.jwt.JwtConstant.*;
+
+@SecurityScheme(type = SecuritySchemeType.HTTP, scheme = BEARER, bearerFormat = JWT, name = AUTHORIZATION_HEADER, in = SecuritySchemeIn.HEADER)
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -45,9 +52,9 @@ public class AuthController {
     }
 
     @PostMapping(SIGN_IN)
-    public ResponseEntity signIn(SignInRequest signInRequest) {
+    public ResponseEntity<TokenResponse> signIn(@RequestBody SignInRequest signInRequest) {
         log.debug("signIn: {}", signInRequest);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(authService.signIn(signInRequest));
     }
 
     @PostMapping(SIGN_OUT)

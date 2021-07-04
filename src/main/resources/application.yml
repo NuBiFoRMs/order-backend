@@ -1,21 +1,23 @@
 spring:
-  datasource:
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password: sa
-
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     open-in-view: false
-    properties:
-      hibernate:
-        format_sql: true
-        show_sql: true
 
 springdoc.swagger-ui.path: /swagger-ui.html
 
-logging:
-  level:
-    org.hibernate.type.descriptor.sql.BasicBinder: trace
-    com.nubiform: debug
+app:
+  datasource:
+    read-only:
+      url: jdbc:mysql://localhost:3306/order_db
+      username: readonly
+      password: readonly
+
+    write:
+      url: jdbc:mysql://localhost:3306/order_db
+      username: root
+      password: root
+
+jwt:
+  secret: T3JkZXJNYW5hZ2VtZW50UHJvamVjdHxjb20ubnViaWZvcm18b3JkZXItYmFja2VuZHw4YTc5ZjgzMy02YzYwLTRjM2UtYTVhNS02NDIwMTM2ZTE4NjE=
+  token-validity-in-second: 1800

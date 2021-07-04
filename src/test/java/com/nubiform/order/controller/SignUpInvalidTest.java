@@ -9,15 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.nubiform.order.controller.AuthController.API_V1_AUTH_URI;
 import static com.nubiform.order.controller.AuthController.SIGN_UP;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
+@ActiveProfiles("test")
 @AutoConfigureMockMvc
 class SignUpInvalidTest {
 
@@ -52,7 +55,10 @@ class SignUpInvalidTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(signUpRequest)))
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(1001))
+                .andExpect(jsonPath("$.description").value("invalid parameter"))
+                .andExpect(jsonPath("$.details[0].field").value("username"));
     }
 
     @Test
@@ -63,7 +69,10 @@ class SignUpInvalidTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(signUpRequest)))
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(1001))
+                .andExpect(jsonPath("$.description").value("invalid parameter"))
+                .andExpect(jsonPath("$.details[0].field").value("nickname"));
     }
 
     @Test
@@ -74,7 +83,10 @@ class SignUpInvalidTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(signUpRequest)))
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(1001))
+                .andExpect(jsonPath("$.description").value("invalid parameter"))
+                .andExpect(jsonPath("$.details[0].field").value("password"));
     }
 
     @Test
@@ -85,7 +97,10 @@ class SignUpInvalidTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(signUpRequest)))
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(1001))
+                .andExpect(jsonPath("$.description").value("invalid parameter"))
+                .andExpect(jsonPath("$.details[0].field").value("phone"));
     }
 
     @Test
@@ -96,6 +111,27 @@ class SignUpInvalidTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(signUpRequest)))
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(1001))
+                .andExpect(jsonPath("$.description").value("invalid parameter"))
+                .andExpect(jsonPath("$.details[0].field").value("email"));
+    }
+
+    @Test
+    void invalidAllTest() throws Exception {
+        signUpRequest.setUsername("12345!@#$%");
+        signUpRequest.setNickname("12345!@#$%");
+        signUpRequest.setPassword("password");
+        signUpRequest.setPhone("phone");
+        signUpRequest.setEmail("email");
+
+        mockMvc.perform(post(API_V1_AUTH_URI + SIGN_UP)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(signUpRequest)))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(1001))
+                .andExpect(jsonPath("$.description").value("invalid parameter"))
+                .andExpect(jsonPath("$.details.length()").value(5));
     }
 }
