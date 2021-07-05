@@ -4,7 +4,6 @@ import com.nubiform.order.config.security.jwt.JwtAccessDeniedHandler;
 import com.nubiform.order.config.security.jwt.JwtAuthenticationEntryPoint;
 import com.nubiform.order.config.security.jwt.JwtAuthenticationFilter;
 import com.nubiform.order.config.security.jwt.JwtTokenProvider;
-import com.nubiform.order.controller.AuthController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +17,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import static com.nubiform.order.controller.AuthController.API_V1_AUTH_URI;
+import static com.nubiform.order.controller.AuthController.SIGN_OUT;
 
 @RequiredArgsConstructor
 @Configuration
@@ -48,7 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
-                .mvcMatchers(AuthController.API_V1_AUTH_URI + "/**").permitAll()
+                .mvcMatchers(API_V1_AUTH_URI + SIGN_OUT).authenticated()
+                .mvcMatchers(API_V1_AUTH_URI + "/**").permitAll()
                 .anyRequest().authenticated();
 
         http.exceptionHandling()

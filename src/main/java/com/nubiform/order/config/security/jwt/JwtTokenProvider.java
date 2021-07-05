@@ -8,6 +8,7 @@ import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,6 +20,7 @@ import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -30,6 +32,8 @@ public class JwtTokenProvider implements InitializingBean {
     public static final String DELIMITER = ",";
 
     private final JwtProperties jwtProperties;
+
+    private final RedisTemplate<String, Object> redisTemplate;
 
     private Key key;
 
@@ -75,6 +79,11 @@ public class JwtTokenProvider implements InitializingBean {
     }
 
     public boolean validateToken(String token) {
+        if (Objects.nonNull(redisTemplate.opsForValue().get(token))) {
+            log.info("이미 로그아웃된 토큰 입니다.");
+            return false;
+        }
+
         try {
             Jwts.parserBuilder()
                     .setSigningKey(key)

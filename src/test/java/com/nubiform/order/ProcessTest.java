@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 
 import static com.nubiform.order.config.security.jwt.JwtConstant.AUTHORIZATION_HEADER;
 import static com.nubiform.order.config.security.jwt.JwtConstant.BEARER;
@@ -81,6 +82,35 @@ class ProcessTest {
                 .usingRecursiveComparison().ignoringFields("password").isEqualTo(signUpRequest);
     }
 
+    @Test
+    @DisplayName("회원가입,로그인,로그아웃,로그아웃")
+    void process2() throws Exception {
+        SignUpRequest signUpRequest = SignUpRequest.builder()
+                .username("username")
+                .nickname("nickname")
+                .password("Password1!")
+                .phone("123456789")
+                .email("email@email.com")
+                .gender("gender")
+                .build();
+
+        // 회원가입
+        signUp(signUpRequest);
+
+        SignInRequest signInRequest = new SignInRequest();
+        signInRequest.setUserid(signUpRequest.getNickname());
+        signInRequest.setPassword(signUpRequest.getPassword());
+
+        // 로그인
+        TokenResponse tokenResponse = signIn(signInRequest);
+
+        // 로그아웃
+        signOut(tokenResponse.getToken(), status().isOk());
+
+        // 로그아웃
+        signOut(tokenResponse.getToken(), status().isUnauthorized());
+    }
+
     MemberResponse signUp(SignUpRequest signUpRequest) throws Exception {
         String response = mockMvc.perform(post(API_V1_AUTH_URI + SIGN_UP)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -99,6 +129,14 @@ class ProcessTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         return objectMapper.readValue(response, TokenResponse.class);
+    }
+
+    void signOut(String token, ResultMatcher resultMatcher) throws Exception {
+        mockMvc.perform(post(API_V1_AUTH_URI + SIGN_OUT)
+                .header(AUTHORIZATION_HEADER, String.join(" ", BEARER, token))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(resultMatcher);
     }
 
     MemberResponse member(String token, String userid) throws Exception {
