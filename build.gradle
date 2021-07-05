@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.nubiform'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 sourceCompatibility = '11'
 
 configurations {
@@ -47,6 +47,10 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+jar {
+    enabled = false
 }
 
 jacocoTestReport {
