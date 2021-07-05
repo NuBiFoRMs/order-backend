@@ -20,6 +20,24 @@ services:
     volumes:
       - redis_data:/data
 
+  app:
+    image: nubiform/order-backend:latest
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      READ_USER: readonly
+      READ_PASSWORD: readonly
+      WRITE_USER: write
+      WRITE_PASSWORD: write
+    depends_on:
+      - mysql
+      - redis
+
 volumes:
   mysql_data:
   redis_data:
