@@ -1,7 +1,6 @@
 package com.nubiform.order.config;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import redis.embedded.RedisServer;
 
@@ -12,11 +11,14 @@ import javax.annotation.PreDestroy;
 @Configuration
 public class EmbeddedRedisConfig {
 
-    private RedisServer redisServer;
+    private final RedisProperties redisProperties;
 
-    public EmbeddedRedisConfig(@Value("${spring.redis.port}") int redisPort) {
-        log.info("EmbeddedRedisConfig: {}", redisPort);
-        redisServer = new RedisServer(redisPort);
+    private final RedisServer redisServer;
+
+    public EmbeddedRedisConfig(RedisProperties redisProperties) {
+        log.info("EmbeddedRedisConfig: {}", redisProperties);
+        this.redisProperties = redisProperties;
+        this.redisServer = new RedisServer(redisProperties.getPort());
     }
 
     @PostConstruct
