@@ -12,9 +12,9 @@ create table members
     password varchar(255) null,
     phone    varchar(255) null,
     username varchar(255) null,
-    constraint UK_9d30a9u1qpg8eou0otgkwrp5d
+    constraint UK_email
         unique (email),
-    constraint UK_e6u9u9ypoc7oldnpxdjwcdx3
+    constraint UK_nickname
         unique (nickname)
 );
 
@@ -25,7 +25,7 @@ create table orders
     order_date datetime(6)  null,
     product    varchar(255) null,
     member_id  bigint       null,
-    constraint FK2vq7lo4gkknrmghj3rqpqqg6s
+    constraint FK_member_id
         foreign key (member_id) references members (id)
 );
 
