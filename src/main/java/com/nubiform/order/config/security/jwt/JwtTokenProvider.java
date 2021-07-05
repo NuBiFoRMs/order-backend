@@ -76,7 +76,10 @@ public class JwtTokenProvider implements InitializingBean {
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token);
             return true;
         } catch (ExpiredJwtException e) {
             log.info("만료된 JWT 토큰 입니다.");
@@ -90,5 +93,13 @@ public class JwtTokenProvider implements InitializingBean {
             log.info("잘못된 토큰 입니다.");
         }
         return false;
+    }
+
+    public Date getExpiration(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody().getExpiration();
     }
 }
