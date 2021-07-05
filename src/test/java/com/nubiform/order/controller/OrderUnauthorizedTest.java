@@ -86,7 +86,7 @@ class OrderUnauthorizedTest {
     }
 
     @Test
-    public void getOrderByNicknameTest() throws Exception {
+    void getOrderByNicknameTest() throws Exception {
         mockMvc.perform(get(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "nickname")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -94,7 +94,7 @@ class OrderUnauthorizedTest {
     }
 
     @Test
-    public void getOrderByEmailTest() throws Exception {
+    void getOrderByEmailTest() throws Exception {
         mockMvc.perform(get(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "email")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -102,7 +102,7 @@ class OrderUnauthorizedTest {
     }
 
     @Test
-    public void getOrderEmptyTest() throws Exception {
+    void getOrderEmptyTest() throws Exception {
         mockMvc.perform(get(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "nicknameX")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -110,7 +110,7 @@ class OrderUnauthorizedTest {
     }
 
     @Test
-    public void getOrderNoDataTest() throws Exception {
+    void getOrderNoDataTest() throws Exception {
         mockMvc.perform(get(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "empty")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -118,7 +118,7 @@ class OrderUnauthorizedTest {
     }
 
     @Test
-    public void orderByNicknameTest() throws Exception {
+    void orderByNicknameTest() throws Exception {
         OrderRequest orderRequest = new OrderRequest();
         orderRequest.setProduct("newProductNickname");
 
@@ -130,7 +130,7 @@ class OrderUnauthorizedTest {
     }
 
     @Test
-    public void orderByEmailTest() throws Exception {
+    void orderByEmailTest() throws Exception {
         OrderRequest orderRequest = new OrderRequest();
         orderRequest.setProduct("newProductEmail");
 
@@ -142,7 +142,7 @@ class OrderUnauthorizedTest {
     }
 
     @Test
-    public void orderNoDataTest() throws Exception {
+    void orderNoDataTest() throws Exception {
         OrderRequest orderRequest = new OrderRequest();
         orderRequest.setProduct("newProductEmail");
 

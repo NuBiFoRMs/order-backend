@@ -20,7 +20,7 @@ class OrderRepositoryTest {
     MemberRepository memberRepository;
 
     @Test
-    public void orderSaveTest() {
+    void orderSaveTest() {
         Order order = Order.builder()
                 .product("product")
                 .orderDate(LocalDateTime.now())
@@ -34,7 +34,7 @@ class OrderRepositoryTest {
     }
 
     @Test
-    public void orderMemberMappingTest() {
+    void orderMemberMappingTest() {
         Member member = Member.builder()
                 .username("username")
                 .nickname("nickname")

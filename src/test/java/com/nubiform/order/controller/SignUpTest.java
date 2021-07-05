@@ -58,10 +58,10 @@ class SignUpTest {
         mockMvc.perform(post(API_V1_AUTH_URI + SIGN_UP)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(signUpRequest)))
+                .andDo(print())
                 .andExpect(status().isOk());
 
         Member member = memberRepository.findByEmail(signUpRequest.getEmail()).orElse(null);
-
 
         assertThat(member)
                 .isNotNull()

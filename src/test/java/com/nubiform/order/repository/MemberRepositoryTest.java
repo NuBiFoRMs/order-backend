@@ -31,7 +31,7 @@ class MemberRepositoryTest {
     }
 
     @Test
-    public void memberTest() {
+    void memberTest() {
         Member memberByNickname = memberRepository.findByNickname(member.getNickname()).orElse(null);
         assertNotNull(memberByNickname);
         assertEquals(member.getNickname(), memberByNickname.getNickname());
@@ -50,7 +50,7 @@ class MemberRepositoryTest {
     }
 
     @Test
-    public void memberUniqueTest() {
+    void memberUniqueTest() {
         Member member1 = Member.builder()
                 .username("username")
                 .nickname("nickname1")
@@ -65,7 +65,7 @@ class MemberRepositoryTest {
     }
 
     @Test
-    public void memberUniqueNicknameTest() {
+    void memberUniqueNicknameTest() {
         assertThrows(DataIntegrityViolationException.class, () -> {
             Member member1 = Member.builder()
                     .username("username")
@@ -82,7 +82,7 @@ class MemberRepositoryTest {
     }
 
     @Test
-    public void memberUniqueEmailTest() {
+    void memberUniqueEmailTest() {
         assertThrows(DataIntegrityViolationException.class, () -> {
             Member member1 = Member.builder()
                     .username("username")
