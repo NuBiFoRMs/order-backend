@@ -15,7 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.nubiform.order.controller.AuthController.*;
+import static com.nubiform.order.controller.AuthController.API_V1_AUTH_URI;
+import static com.nubiform.order.controller.AuthController.SIGN_IN;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -95,12 +96,5 @@ class AuthControllerTest {
                 .content(objectMapper.writeValueAsString(signInRequest)))
                 .andDo(print())
                 .andExpect(status().isUnauthorized());
-    }
-
-    @Test
-    void signOutTest() throws Exception {
-        mockMvc.perform(post(API_V1_AUTH_URI + SIGN_OUT)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
     }
 }
