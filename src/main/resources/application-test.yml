@@ -27,3 +27,6 @@ app:
       url: jdbc:h2:mem:testdb
       username: sa
       password: sa
+
+jwt:
+  token-validity-in-second: 3

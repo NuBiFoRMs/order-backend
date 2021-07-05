@@ -80,10 +80,9 @@ public class JwtTokenProvider implements InitializingBean {
 
     public boolean validateToken(String token) {
         if (Objects.nonNull(redisTemplate.opsForValue().get(token))) {
-            log.info("이미 로그아웃된 토큰 입니다.");
+            log.debug("logout token");
             return false;
         }
-
         try {
             Jwts.parserBuilder()
                     .setSigningKey(key)
@@ -91,15 +90,15 @@ public class JwtTokenProvider implements InitializingBean {
                     .parseClaimsJws(token);
             return true;
         } catch (ExpiredJwtException e) {
-            log.info("만료된 JWT 토큰 입니다.");
+            log.debug("ExpiredJwtException");
         } catch (UnsupportedJwtException e) {
-            log.info("지원되지 않는 JWT 토큰 입니다.");
+            log.debug("UnsupportedJwtException");
         } catch (MalformedJwtException e) {
-            log.info("잘못된 JWT 토큰 입니다.");
+            log.debug("MalformedJwtException");
         } catch (SignatureException e) {
-            log.info("잘못된 JWT 서명 입니다.");
+            log.debug("SignatureException");
         } catch (IllegalArgumentException e) {
-            log.info("잘못된 토큰 입니다.");
+            log.debug("IllegalArgumentException");
         }
         return false;
     }

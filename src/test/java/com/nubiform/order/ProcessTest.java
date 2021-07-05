@@ -53,7 +53,7 @@ class ProcessTest {
     }
 
     @Test
-    @DisplayName("회원가입,로그인,단일회원정보조회")
+    @DisplayName("회원가입,로그인,단일회원정보조회,로그아웃,단일회원정보조회")
     void process1() throws Exception {
         SignUpRequest signUpRequest = SignUpRequest.builder()
                 .username("username")
@@ -80,6 +80,12 @@ class ProcessTest {
         assertThat(memberResponse)
                 .isNotNull()
                 .usingRecursiveComparison().ignoringFields("password").isEqualTo(signUpRequest);
+
+        // 로그아웃
+        signOut(tokenResponse.getToken(), status().isOk());
+
+        // 단일회원정보조회
+        memberUnauthorized(tokenResponse.getToken(), signInRequest.getUserid());
     }
 
     @Test
@@ -109,6 +115,34 @@ class ProcessTest {
 
         // 로그아웃
         signOut(tokenResponse.getToken(), status().isUnauthorized());
+    }
+
+    @Test
+    @DisplayName("회원가입,로그인,로그인만료,단일회원정보조회")
+    void process3() throws Exception {
+        SignUpRequest signUpRequest = SignUpRequest.builder()
+                .username("username")
+                .nickname("nickname")
+                .password("Password1!")
+                .phone("123456789")
+                .email("email@email.com")
+                .gender("gender")
+                .build();
+
+        // 회원가입
+        signUp(signUpRequest);
+
+        SignInRequest signInRequest = new SignInRequest();
+        signInRequest.setUserid(signUpRequest.getNickname());
+        signInRequest.setPassword(signUpRequest.getPassword());
+
+        // 로그인
+        TokenResponse tokenResponse = signIn(signInRequest);
+
+        Thread.sleep(3000);
+
+        // 단일회원정보조회
+        memberUnauthorized(tokenResponse.getToken(), signInRequest.getUserid());
     }
 
     MemberResponse signUp(SignUpRequest signUpRequest) throws Exception {
@@ -147,5 +181,13 @@ class ProcessTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         return objectMapper.readValue(response, MemberResponse.class);
+    }
+
+    void memberUnauthorized(String token, String userid) throws Exception {
+        mockMvc.perform(get(API_V1_MEMBERS_URI + PATH_VARIABLE_USER_ID, userid)
+                .header(AUTHORIZATION_HEADER, String.join(" ", BEARER, token))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isUnauthorized());
     }
 }
