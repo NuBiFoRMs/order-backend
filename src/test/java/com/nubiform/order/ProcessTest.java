@@ -139,7 +139,7 @@ class ProcessTest {
         // 로그인
         TokenResponse tokenResponse = signIn(signInRequest);
 
-        Thread.sleep(3000);
+        Thread.sleep(5000);
 
         // 단일회원정보조회
         memberUnauthorized(tokenResponse.getToken(), signInRequest.getUserid());
