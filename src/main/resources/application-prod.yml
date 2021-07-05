@@ -1,0 +1,16 @@
+spring:
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+
+app:
+  datasource:
+    read-only:
+      url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/order_db
+      username: ${READ_USER}
+      password: ${READ_PASSWORD}
+
+    write:
+      url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/order_db
+      username: ${WRITE_USER}
+      password: ${WRITE_PASSWORD}
