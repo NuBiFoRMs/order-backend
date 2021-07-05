@@ -1,6 +1,7 @@
 spring:
-  security:
-    debug: true
+  devtools:
+    add-properties: true
+
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -9,6 +10,9 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
+
+  security:
+    debug: true
 
 logging:
   level:

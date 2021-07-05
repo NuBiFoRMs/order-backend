@@ -5,12 +5,14 @@ import com.nubiform.order.domain.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
+@ActiveProfiles("test")
 class OrderRepositoryTest {
 
     @Autowired
@@ -20,7 +22,7 @@ class OrderRepositoryTest {
     MemberRepository memberRepository;
 
     @Test
-    public void orderSaveTest() {
+    void orderSaveTest() {
         Order order = Order.builder()
                 .product("product")
                 .orderDate(LocalDateTime.now())
@@ -34,7 +36,7 @@ class OrderRepositoryTest {
     }
 
     @Test
-    public void orderMemberMappingTest() {
+    void orderMemberMappingTest() {
         Member member = Member.builder()
                 .username("username")
                 .nickname("nickname")

@@ -91,7 +91,7 @@ class OrderControllerTest {
     }
 
     @Test
-    public void getOrderByNicknameTest() throws Exception {
+    void getOrderByNicknameTest() throws Exception {
         mockMvc.perform(get(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "nickname")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -100,7 +100,7 @@ class OrderControllerTest {
     }
 
     @Test
-    public void getOrderByEmailTest() throws Exception {
+    void getOrderByEmailTest() throws Exception {
         mockMvc.perform(get(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "email")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -109,7 +109,7 @@ class OrderControllerTest {
     }
 
     @Test
-    public void getOrderEmptyTest() throws Exception {
+    void getOrderEmptyTest() throws Exception {
         mockMvc.perform(get(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "nicknameX")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -118,7 +118,7 @@ class OrderControllerTest {
     }
 
     @Test
-    public void getOrderNoDataTest() throws Exception {
+    void getOrderNoDataTest() throws Exception {
         mockMvc.perform(get(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "empty")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -128,7 +128,7 @@ class OrderControllerTest {
     }
 
     @Test
-    public void orderTest() throws Exception {
+    void orderTest() throws Exception {
         OrderRequest orderRequest = new OrderRequest();
         orderRequest.setProduct("newProductNickname");
 

@@ -1,5 +1,6 @@
 package com.nubiform.order.controller;
 
+import com.nubiform.order.config.security.jwt.JwtTokenProvider;
 import com.nubiform.order.exception.ApiParameterException;
 import com.nubiform.order.service.AuthService;
 import com.nubiform.order.validator.SignUpRequestValidator;
@@ -9,19 +10,24 @@ import com.nubiform.order.vo.response.MemberResponse;
 import com.nubiform.order.vo.response.TokenResponse;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.concurrent.TimeUnit;
 
 import static com.nubiform.order.config.security.jwt.JwtConstant.*;
 
@@ -42,6 +48,10 @@ public class AuthController {
     private final AuthService authService;
 
     private final SignUpRequestValidator signUpRequestValidator;
+
+    private final JwtTokenProvider jwtTokenProvider;
+
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @InitBinder("signUpRequest")
     public void signUpRequestInitBinder(WebDataBinder webDataBinder) {
@@ -66,8 +76,18 @@ public class AuthController {
     }
 
     @Operation(summary = "로그아웃", description = "회원 로그아웃을 수행합니다.")
+    @SecurityRequirement(name = AUTHORIZATION_HEADER)
     @PostMapping(SIGN_OUT)
-    public ResponseEntity signOut() {
+    public ResponseEntity signOut(@Parameter(hidden = true) @RequestHeader(AUTHORIZATION_HEADER) String token, HttpServletResponse response) {
+        log.debug("signOut: {}", token);
+        token = token.replace(BEARER, "").trim();
+
+        redisTemplate.opsForValue().set(
+                token,
+                "token",
+                jwtTokenProvider.getExpiration(token).getTime() - System.currentTimeMillis(),
+                TimeUnit.MILLISECONDS);
+        
         return ResponseEntity.ok().build();
     }
 }

@@ -87,7 +87,7 @@ class MemberControllerTest {
     }
 
     @Test
-    public void getMemberByNicknameTest() throws Exception {
+    void getMemberByNicknameTest() throws Exception {
         mockMvc.perform(get(API_V1_MEMBERS_URI + PATH_VARIABLE_USER_ID, "nickname")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -96,7 +96,7 @@ class MemberControllerTest {
     }
 
     @Test
-    public void getMemberByEmailTest() throws Exception {
+    void getMemberByEmailTest() throws Exception {
         mockMvc.perform(get(API_V1_MEMBERS_URI + PATH_VARIABLE_USER_ID, "email")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -105,7 +105,7 @@ class MemberControllerTest {
     }
 
     @Test
-    public void getMemberNoDataTest() throws Exception {
+    void getMemberNoDataTest() throws Exception {
         mockMvc.perform(get(API_V1_MEMBERS_URI + PATH_VARIABLE_USER_ID, "noData")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -115,7 +115,7 @@ class MemberControllerTest {
     }
 
     @Test
-    public void getMembersTest() throws Exception {
+    void getMembersTest() throws Exception {
         mockMvc.perform(get(API_V1_MEMBERS_URI)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -134,7 +134,7 @@ class MemberControllerTest {
     }
 
     @Test
-    public void getMembersByPageDescTest() throws Exception {
+    void getMembersByPageDescTest() throws Exception {
         mockMvc.perform(get(API_V1_MEMBERS_URI)
                 .param(PARAM_SORT, "nickname,desc")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -144,7 +144,7 @@ class MemberControllerTest {
     }
 
     @Test
-    public void getMembersByUsernameTest() throws Exception {
+    void getMembersByUsernameTest() throws Exception {
         mockMvc.perform(get(API_V1_MEMBERS_URI)
                 .param(PARAM_USERNAME, "username")
                 .param(PARAM_SORT, "nickname")
@@ -156,7 +156,7 @@ class MemberControllerTest {
     }
 
     @Test
-    public void getMembersByEmailTest() throws Exception {
+    void getMembersByEmailTest() throws Exception {
         mockMvc.perform(get(API_V1_MEMBERS_URI)
                 .param(PARAM_EMAIL, "email")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -166,7 +166,7 @@ class MemberControllerTest {
     }
 
     @Test
-    public void getMembersEmptyTest() throws Exception {
+    void getMembersEmptyTest() throws Exception {
         mockMvc.perform(get(API_V1_MEMBERS_URI)
                 .param(PARAM_USERNAME, "empty")
                 .contentType(MediaType.APPLICATION_JSON))

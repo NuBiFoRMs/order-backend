@@ -6,10 +6,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
+@ActiveProfiles("test")
 class MemberRepositoryTest {
 
     @Autowired
@@ -31,7 +33,7 @@ class MemberRepositoryTest {
     }
 
     @Test
-    public void memberTest() {
+    void memberTest() {
         Member memberByNickname = memberRepository.findByNickname(member.getNickname()).orElse(null);
         assertNotNull(memberByNickname);
         assertEquals(member.getNickname(), memberByNickname.getNickname());
@@ -50,7 +52,7 @@ class MemberRepositoryTest {
     }
 
     @Test
-    public void memberUniqueTest() {
+    void memberUniqueTest() {
         Member member1 = Member.builder()
                 .username("username")
                 .nickname("nickname1")
@@ -65,7 +67,7 @@ class MemberRepositoryTest {
     }
 
     @Test
-    public void memberUniqueNicknameTest() {
+    void memberUniqueNicknameTest() {
         assertThrows(DataIntegrityViolationException.class, () -> {
             Member member1 = Member.builder()
                     .username("username")
@@ -82,7 +84,7 @@ class MemberRepositoryTest {
     }
 
     @Test
-    public void memberUniqueEmailTest() {
+    void memberUniqueEmailTest() {
         assertThrows(DataIntegrityViolationException.class, () -> {
             Member member1 = Member.builder()
                     .username("username")
