@@ -1,7 +1,4 @@
 spring:
-  profiles:
-    active: prod
-
   devtools:
     add-properties: false
 
@@ -25,8 +22,8 @@ app:
 
     write:
       url: jdbc:mysql://localhost:3306/order_db
-      username: root
-      password: root
+      username: write
+      password: write
 
 jwt:
   secret: T3JkZXJNYW5hZ2VtZW50UHJvamVjdHxjb20ubnViaWZvcm18b3JkZXItYmFja2VuZHw4YTc5ZjgzMy02YzYwLTRjM2UtYTVhNS02NDIwMTM2ZTE4NjE=
