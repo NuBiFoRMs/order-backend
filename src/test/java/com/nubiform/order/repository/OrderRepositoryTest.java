@@ -61,7 +61,7 @@ class OrderRepositoryTest {
     }
 
     @Test
-    void Test() {
+    void querydslTest() {
         Member member1 = Member.builder()
                 .username("username")
                 .nickname("nickname1")
