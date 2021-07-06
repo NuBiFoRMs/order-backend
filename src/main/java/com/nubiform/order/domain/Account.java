@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 public class Account extends User {
 
-    private Member member;
+    private final Member member;
 
     public Account(Member member) {
         super(member.getNickname(), member.getPassword(), List.of(new SimpleGrantedAuthority("ROLE_USER")));
