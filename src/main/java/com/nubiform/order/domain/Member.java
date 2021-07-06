@@ -12,6 +12,9 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@NamedEntityGraph(name = "Member.order", attributeNodes = {
+        @NamedAttributeNode("order")
+})
 @Entity
 @Table(name = "members")
 public class Member {

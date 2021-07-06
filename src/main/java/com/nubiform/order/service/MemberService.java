@@ -56,7 +56,7 @@ public class MemberService {
             return memberRepository.findAll(pageable)
                     .map(mapMemberOrder);
         else
-            return memberRepository.findByUsernameOrEmail(username, email, pageable)
+            return memberRepository.findAllByUsernameOrEmail(username, email, pageable)
                     .map(mapMemberOrder);
     }
 }
