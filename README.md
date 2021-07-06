@@ -36,6 +36,8 @@
 
 ### Gradle Build and Run with `local` profile
 
+H2 Database, Embedded Redis 구성으로 실행
+
 ```
 git clone https://github.com/NuBiFoRMs/order-backend.git
 cd order-backend
@@ -44,6 +46,8 @@ java -jar -Dspring.profiles.active=local order-backend-1.0.2.jar
 ```
 
 ### Gradle Build and Run with `dev` profile
+
+Docker 컨테이너 `mysql:8.0`, `redis:alpine` 구성으로 실행
 
 ```
 git clone https://github.com/NuBiFoRMs/order-backend.git
@@ -54,6 +58,8 @@ java -jar -Dspring.profiles.active=local order-backend-1.0.2.jar
 ```
 
 ### Docker Run with `prod` profile
+
+Docker 컨테이너 `mysql:8.0`, `redis:alpine`, `nubiform/order-backend:latest` 구성으로 실행
 
 ```
 git clone https://github.com/NuBiFoRMs/order-backend.git
