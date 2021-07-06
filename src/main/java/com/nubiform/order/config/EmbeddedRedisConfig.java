@@ -9,7 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 @Slf4j
-@Profile({"dev", "test"})
+@Profile({"local", "test"})
 @Configuration
 public class EmbeddedRedisConfig {
 
@@ -25,7 +25,7 @@ public class EmbeddedRedisConfig {
 
     @PostConstruct
     public void startServer() {
-        log.info("startServer");
+        log.info("startServer: {}", redisProperties);
         redisServer.start();
     }
 
