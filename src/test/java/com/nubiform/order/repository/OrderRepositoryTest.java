@@ -59,4 +59,43 @@ class OrderRepositoryTest {
         assertThat(newMember).isNotNull();
         assertThat(newMember.getOrder()).contains(order);
     }
+
+    @Test
+    void Test() {
+        Member member1 = Member.builder()
+                .username("username")
+                .nickname("nickname1")
+                .password("password")
+                .phone("phone")
+                .email("email1")
+                .gender("gender")
+                .build();
+        memberRepository.save(member1);
+
+        Member member2 = Member.builder()
+                .username("username")
+                .nickname("nickname2")
+                .password("password")
+                .phone("phone")
+                .email("email2")
+                .gender("gender")
+                .build();
+        memberRepository.save(member2);
+
+        Order order1 = Order.builder()
+                .product("product")
+                .orderDate(LocalDateTime.now())
+                .build();
+        order1.setMember(member2);
+        orderRepository.save(order1);
+
+        Order order2 = Order.builder()
+                .product("product")
+                .orderDate(LocalDateTime.now())
+                .build();
+        order2.setMember(member2);
+        orderRepository.save(order2);
+
+        memberRepository.getMember().forEach(System.out::println);
+    }
 }
