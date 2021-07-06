@@ -13,7 +13,7 @@ import static com.nubiform.order.domain.Account.RoleType.ROLE_USER;
 @Getter
 public class Account extends User {
 
-    public final class RoleType {
+    public static final class RoleType {
         public static final String ROLE_USER = "ROLE_USER";
     }
 
