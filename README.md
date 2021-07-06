@@ -13,23 +13,64 @@
 [![Commit Activity](https://img.shields.io/github/commit-activity/w/nubiforms/order-backend)](https://github.com/NuBiFoRMs/order-backend/commits)
 [![Last Commit](https://img.shields.io/github/last-commit/nubiforms/order-backend)](https://github.com/NuBiFoRMs/order-backend/commits)
 
+## 개발 프레임워크
+
+* JDK 11
+* Gradle
+* Spring Boot
+* Spring Data JPA
+* H2 Database
+* Embedded Redis
+* Docker
+* Docker Composer
+* MySQL
+* Redis
+
+## Database
+
+`mysql-init-file/mysql.sql` 경로에 테이블 생성 쿼리 및 샘플 데이터 생성 쿼리가 포함되어 있습니다.  
+해당 스크립트는 `Docker`를 통해 `mysql`이 실행될때 자동으로 수행됩니다.  
+`mysql` 쓰기 전용 서버와 읽기 전용 서버 `replication` 설정을 쓰기 전용 유저 `write`, 읽기 전용 유저 `read-only` 구성으로 대체 하였습니다.
+
 ## 빌드 및 실행 방법
 
-### Gradle Build
+### Gradle Build and Run with `local` profile
 
 ```
 git clone https://github.com/NuBiFoRMs/order-backend.git
 cd order-backend
 gradle build
-java -jar build/libs/order-backend-0.0.1-SNAPSHOT.jar
+java -jar -Dspring.profiles.active=local order-backend-1.0.2.jar
+```
+
+### Gradle Build and Run with `dev` profile
+
+```
+git clone https://github.com/NuBiFoRMs/order-backend.git
+cd order-backend
+docker-compose -f docker-compose-dev.yml up -d
+gradle build
+java -jar -Dspring.profiles.active=local order-backend-1.0.2.jar
+```
+
+### Docker Run with `prod` profile
+
+```
+git clone https://github.com/NuBiFoRMs/order-backend.git
+cd order-backend
+docker-compose up -d
 ```
 
 ## 기타
 
-### Codecov(Test Coverage)
+### Docker Hub
 
-* [https://app.codecov.io/gh/NuBiFoRMs/order-backend](https://app.codecov.io/gh/NuBiFoRMs/order-backend)
+* https://hub.docker.com/r/nubiform/order-backend
+
+### Codecov
+
+* https://app.codecov.io/gh/NuBiFoRMs/order-backend
 
 ### Swagger UI
 
-* [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+* http://localhost:8080/swagger-ui.html
