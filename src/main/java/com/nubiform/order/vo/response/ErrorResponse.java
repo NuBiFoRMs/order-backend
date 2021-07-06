@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @JsonPropertyOrder({"code", "description", "details"})
-public class ErrorResponse<T> {
+public class ErrorResponse {
 
     @JsonIgnore
     private ApiError apiError;
@@ -17,7 +17,7 @@ public class ErrorResponse<T> {
     private String message;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private T details;
+    private Object details;
 
     public ErrorResponse(ApiError apiError) {
         this(apiError, null, null);
@@ -27,10 +27,14 @@ public class ErrorResponse<T> {
         this(apiError, message, null);
     }
 
-    public ErrorResponse(ApiError apiError, String message, T details) {
+    public ErrorResponse(ApiError apiError, String message, Object details) {
         this.apiError = apiError;
         this.message = message;
         this.details = details;
+    }
+
+    public static ErrorResponse of(ApiError apiError) {
+        return new ErrorResponse(apiError);
     }
 
     public int getCode() {

@@ -6,9 +6,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DataJpaTest
 @ActiveProfiles("test")
@@ -34,21 +37,35 @@ class MemberRepositoryTest {
 
     @Test
     void memberTest() {
+        // Optional<Member> findByNickname(String nickname);
         Member memberByNickname = memberRepository.findByNickname(member.getNickname()).orElse(null);
-        assertNotNull(memberByNickname);
-        assertEquals(member.getNickname(), memberByNickname.getNickname());
+        assertThat(memberByNickname).isNotNull();
+        assertThat(memberByNickname.getNickname()).isEqualTo(member.getNickname());
 
+        // Optional<Member> findByEmail(String email);
         Member memberByEmail = memberRepository.findByEmail(member.getEmail()).orElse(null);
-        assertNotNull(memberByEmail);
-        assertEquals(member.getEmail(), memberByEmail.getEmail());
+        assertThat(memberByEmail).isNotNull();
+        assertThat(memberByEmail.getEmail()).isEqualTo(member.getEmail());
 
+        // Optional<Member> findByNicknameOrEmail(String nickname, String email);
         Member memberByNicknameOrEmail = memberRepository.findByNicknameOrEmail(member.getNickname(), member.getEmail()).orElse(null);
-        assertNotNull(memberByNicknameOrEmail);
-        assertEquals(member.getNickname(), memberByNicknameOrEmail.getNickname());
-        assertEquals(member.getEmail(), memberByNicknameOrEmail.getEmail());
+        assertThat(memberByNicknameOrEmail).isNotNull();
+        assertThat(memberByNicknameOrEmail.getNickname()).isEqualTo(member.getNickname());
+        assertThat(memberByNicknameOrEmail.getEmail()).isEqualTo(member.getEmail());
 
-        assertTrue(memberRepository.existsByNickname(member.getNickname()));
-        assertTrue(memberRepository.existsByEmail(member.getEmail()));
+        // boolean existsByNickname(String nickname);
+        assertThat(memberRepository.existsByNickname(member.getNickname())).isTrue();
+
+        // boolean existsByEmail(String email);
+        assertThat(memberRepository.existsByEmail(member.getEmail())).isTrue();
+
+        // Page<Member> findAllByUsernameOrEmail(String username, String email, Pageable pageable);
+        Page<Member> memberAllByUsernameOrEmail = memberRepository.findAllByUsernameOrEmail(member.getUsername(), member.getEmail(), Pageable.unpaged());
+        assertThat(memberAllByUsernameOrEmail.getContent().size()).isEqualTo(1);
+
+        // Page<Member> findAll(Pageable pageable);
+        Page<Member> memberAll = memberRepository.findAll(Pageable.unpaged());
+        assertThat(memberAll.getSize()).isEqualTo(1);
     }
 
     @Test
@@ -63,12 +80,12 @@ class MemberRepositoryTest {
                 .build();
         memberRepository.save(member1);
 
-        assertEquals(2, memberRepository.findAll().size());
+        assertThat(memberRepository.findAll().size()).isEqualTo(2);
     }
 
     @Test
     void memberUniqueNicknameTest() {
-        assertThrows(DataIntegrityViolationException.class, () -> {
+        assertThatThrownBy(() -> {
             Member member1 = Member.builder()
                     .username("username")
                     .nickname("nickname")
@@ -80,12 +97,12 @@ class MemberRepositoryTest {
             memberRepository.save(member1);
 
             memberRepository.findAll();
-        });
+        }).isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
     void memberUniqueEmailTest() {
-        assertThrows(DataIntegrityViolationException.class, () -> {
+        assertThatThrownBy(() -> {
             Member member1 = Member.builder()
                     .username("username")
                     .nickname("nickname1")
@@ -97,6 +114,6 @@ class MemberRepositoryTest {
             memberRepository.save(member1);
 
             memberRepository.findAll();
-        });
+        }).isInstanceOf(DataIntegrityViolationException.class);
     }
 }
