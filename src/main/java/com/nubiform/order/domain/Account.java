@@ -8,13 +8,19 @@ import org.springframework.security.core.userdetails.User;
 import java.util.Collection;
 import java.util.List;
 
+import static com.nubiform.order.domain.Account.RoleType.ROLE_USER;
+
 @Getter
 public class Account extends User {
 
-    private Member member;
+    public static final class RoleType {
+        public static final String ROLE_USER = "ROLE_USER";
+    }
+
+    private final Member member;
 
     public Account(Member member) {
-        super(member.getNickname(), member.getPassword(), List.of(new SimpleGrantedAuthority("ROLE_USER")));
+        super(member.getNickname(), member.getPassword(), List.of(new SimpleGrantedAuthority(ROLE_USER)));
         this.member = member;
     }
 
