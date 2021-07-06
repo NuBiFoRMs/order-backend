@@ -34,6 +34,8 @@ services:
       READ_PASSWORD: readonly
       WRITE_USER: write
       WRITE_PASSWORD: write
+      SECRET: RGV2ZWxvcG1lbnR8T3JkZXJNYW5hZ2VtZW50UHJvamVjdHxjb20ubnViaWZvcm18b3JkZXItYmFja2VuZHw4YTc5ZjgzMy02YzYwLTRjM2UtYTVhNS02NDIwMTM2ZTE4NjE=
+      TIME_OUT: 1800
     depends_on:
       - mysql
       - redis

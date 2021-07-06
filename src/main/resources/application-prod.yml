@@ -14,3 +14,7 @@ app:
       url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/order_db
       username: ${WRITE_USER}
       password: ${WRITE_PASSWORD}
+
+jwt:
+  secret: ${SECRET}
+  token-validity-in-second: ${TIME_OUT}
