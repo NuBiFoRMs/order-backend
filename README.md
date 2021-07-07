@@ -73,9 +73,9 @@ docker-compose up -d
 
 git actions를 사용하여 CI/CD를 구성
 
-`build.yml` : `main`, `develop`브랜치에 merge시 테스트 및 빌드를 수행 후 테스트 커버리지 측정
+`.github/workflows/build.yml` : `main`, `develop`브랜치에 merge시 테스트 및 빌드를 수행 후 테스트 커버리지 측정
 
-`release.yml` : 릴리즈가 태깅될시 빌드를 수행 후 Docker Hub으로 배포
+`.github/workflows/release.yml` : 릴리즈가 태깅될시 빌드를 수행 후 Docker Hub으로 배포
 
 ## 기타
 
