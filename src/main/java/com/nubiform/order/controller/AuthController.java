@@ -25,6 +25,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.concurrent.TimeUnit;
 
@@ -77,7 +78,7 @@ public class AuthController {
     @Operation(summary = "로그아웃", description = "회원 로그아웃을 수행합니다.")
     @SecurityRequirement(name = AUTHORIZATION_HEADER)
     @PostMapping(SIGN_OUT)
-    public ResponseEntity signOut(@Parameter(hidden = true) @RequestHeader(AUTHORIZATION_HEADER) String token) {
+    public ResponseEntity signOut(@Parameter(hidden = true) @RequestHeader(AUTHORIZATION_HEADER) String token, HttpServletResponse response) {
         log.debug("signOut: {}", token);
         token = token.replace(BEARER, "").trim();
 
@@ -86,7 +87,7 @@ public class AuthController {
                 "token",
                 jwtTokenProvider.getExpiration(token).getTime() - System.currentTimeMillis(),
                 TimeUnit.MILLISECONDS);
-
+        
         return ResponseEntity.ok().build();
     }
 }
