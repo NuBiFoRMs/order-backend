@@ -42,7 +42,7 @@ H2 Database, Embedded Redis 구성으로 실행
 git clone https://github.com/NuBiFoRMs/order-backend.git
 cd order-backend
 gradle build
-java -jar -Dspring.profiles.active=local order-backend-1.0.3.jar
+java -jar -Dspring.profiles.active=local order-backend-1.0.4.jar
 ```
 
 ### Gradle Build and Run with `dev` profile
@@ -54,7 +54,7 @@ git clone https://github.com/NuBiFoRMs/order-backend.git
 cd order-backend
 docker-compose -f docker-compose-dev.yml up -d
 gradle build
-java -jar -Dspring.profiles.active=local order-backend-1.0.3.jar
+java -jar -Dspring.profiles.active=local order-backend-1.0.4.jar
 ```
 
 ### Docker Run with `prod` profile

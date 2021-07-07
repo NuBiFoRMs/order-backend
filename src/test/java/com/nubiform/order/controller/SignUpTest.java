@@ -1,6 +1,7 @@
 package com.nubiform.order.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nubiform.order.constant.ApiError;
 import com.nubiform.order.domain.Member;
 import com.nubiform.order.repository.MemberRepository;
 import com.nubiform.order.vo.request.SignUpRequest;
@@ -97,8 +98,8 @@ class SignUpTest {
                 .content(objectMapper.writeValueAsString(signUpRequest)))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(1001))
-                .andExpect(jsonPath("$.description").value("invalid parameter"))
+                .andExpect(jsonPath("$.code").value(ApiError.INVALID_PARAMETER.getCode()))
+                .andExpect(jsonPath("$.description").value(ApiError.INVALID_PARAMETER.getDescription()))
                 .andExpect(jsonPath("$.details.length()").value(2));
     }
 }
