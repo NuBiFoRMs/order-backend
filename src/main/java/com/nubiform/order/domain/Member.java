@@ -23,21 +23,18 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 20)
     private String username;
 
-    @Column(unique = true, length = 30)
+    @Column(unique = true)
     private String nickname;
 
     private String password;
 
-    @Column(length = 20)
     private String phone;
 
-    @Column(unique = true, length = 100)
+    @Column(unique = true)
     private String email;
 
-    @Column(length = 20)
     private String gender;
 
     @OneToMany(mappedBy = "member")
