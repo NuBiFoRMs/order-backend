@@ -1,6 +1,7 @@
 package com.nubiform.order.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nubiform.order.constant.ApiError;
 import com.nubiform.order.domain.Member;
 import com.nubiform.order.repository.MemberRepository;
 import com.nubiform.order.vo.request.SignInRequest;
@@ -95,6 +96,8 @@ class AuthControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(signInRequest)))
                 .andDo(print())
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(ApiError.INVALID_USERID_OR_PASSWORD.getCode()))
+                .andExpect(jsonPath("$.description").value(ApiError.INVALID_USERID_OR_PASSWORD.getDescription()));
     }
 }
