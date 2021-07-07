@@ -2,6 +2,7 @@ package com.nubiform.order.controller;
 
 import com.nubiform.order.constant.ApiError;
 import com.nubiform.order.exception.ApiException;
+import com.nubiform.order.exception.ApiNotFoundException;
 import com.nubiform.order.exception.ApiParameterException;
 import com.nubiform.order.vo.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -14,13 +15,21 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice
-public class ErrorController {
+public class ErrorControllerAdvice {
 
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<ErrorResponse> apiException(ApiException e) {
         log.error("apiException: {}", e.getLocalizedMessage());
         return ResponseEntity
-                .badRequest()
+                .internalServerError()
+                .body(new ErrorResponse(e.getApiError(), e.getLocalizedMessage()));
+    }
+
+    @ExceptionHandler(ApiNotFoundException.class)
+    public ResponseEntity<ErrorResponse> apiNotFoundException(ApiNotFoundException e) {
+        log.error("apiNotFoundException: {}", e.getLocalizedMessage());
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(e.getApiError(), e.getLocalizedMessage()));
     }
 
@@ -45,7 +54,7 @@ public class ErrorController {
         log.error("badCredentialsException: {}", e.getLocalizedMessage());
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
-                .body(new ErrorResponse(ApiError.UNAUTHORIZED, e.getLocalizedMessage()));
+                .body(new ErrorResponse(ApiError.INVALID_USERID_OR_PASSWORD, e.getLocalizedMessage()));
     }
 
     @ExceptionHandler(Exception.class)
