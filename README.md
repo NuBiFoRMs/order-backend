@@ -22,14 +22,14 @@
 * H2 Database
 * Embedded Redis
 * Docker
-* Docker Composer
+* Docker Compose
 * MySQL
 * Redis
 
 ## Database
 
 `mysql-init-file/mysql.sql` 경로에 테이블 생성 쿼리가 포함되어 있습니다.  
-해당 스크립트는 `Docker`를 통해 `mysql`이 실행될때 자동으로 수행됩니다.  
+해당 스크립트는 `Docker`를 통해 `MySQL`이 실행될때 자동으로 수행될 수 있도록 `Docker Compose`를 구성하였습니다.  
 `mysql` 쓰기 전용 서버와 읽기 전용 서버 `replication` 설정을 쓰기 전용 유저 `write`, 읽기 전용 유저 `read-only` 구성으로 대체 하였습니다.
 
 ## 빌드 및 실행 방법
