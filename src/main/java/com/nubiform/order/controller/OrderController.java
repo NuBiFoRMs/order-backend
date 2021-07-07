@@ -1,5 +1,6 @@
 package com.nubiform.order.controller;
 
+import com.nubiform.order.exception.ApiParameterException;
 import com.nubiform.order.service.OrderService;
 import com.nubiform.order.vo.request.OrderRequest;
 import com.nubiform.order.vo.response.OrderResponse;
@@ -11,8 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static com.nubiform.order.config.security.jwt.JwtConstant.AUTHORIZATION_HEADER;
@@ -39,7 +42,10 @@ public class OrderController {
 
     @Operation(summary = "주문생성", description = "주문을 생성합니다.")
     @PostMapping
-    public ResponseEntity<OrderResponse> order(@AuthenticationPrincipal User user, @RequestBody OrderRequest orderRequest) {
+    public ResponseEntity<OrderResponse> order(@AuthenticationPrincipal User user, @Valid @RequestBody OrderRequest orderRequest, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw ApiParameterException.of(bindingResult);
+        }
         log.debug("order: {} {}", user, orderRequest);
         return ResponseEntity.ok(orderService.order(user.getUsername(), orderRequest));
     }
