@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice
-public class ErrorController {
+public class ErrorControllerAdvice {
 
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<ErrorResponse> apiException(ApiException e) {
