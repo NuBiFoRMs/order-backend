@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.nubiform'
-version = '1.0.3'
+version = '1.0.4'
 sourceCompatibility = '11'
 
 configurations {
