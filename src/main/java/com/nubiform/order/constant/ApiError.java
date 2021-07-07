@@ -11,6 +11,7 @@ public enum ApiError {
     MEMBER_NOT_FOUND(1021, "member not found"),
     ORDER_NOT_FOUND(1022, "order not found"),
     UNAUTHORIZED(1030, "unauthorized"),
+    INVALID_USERID_OR_PASSWORD(1031, "invalid userid or password"),
     FORBIDDEN(1040, "forbidden");
 
     private final int code;

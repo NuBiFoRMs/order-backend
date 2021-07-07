@@ -54,7 +54,7 @@ public class ErrorControllerAdvice {
         log.error("badCredentialsException: {}", e.getLocalizedMessage());
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
-                .body(new ErrorResponse(ApiError.UNAUTHORIZED, e.getLocalizedMessage()));
+                .body(new ErrorResponse(ApiError.INVALID_USERID_OR_PASSWORD, e.getLocalizedMessage()));
     }
 
     @ExceptionHandler(Exception.class)

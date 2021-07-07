@@ -1,17 +1,18 @@
 package com.nubiform.order.vo.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.nubiform.order.constant.ApiError;
 import lombok.Data;
+import org.springframework.http.HttpStatus;
 
 @Data
 @JsonPropertyOrder({"code", "description", "details"})
 public class ErrorResponse {
 
-    @JsonIgnore
-    private ApiError apiError;
+    private int code;
+
+    private String description;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String message;
@@ -28,20 +29,22 @@ public class ErrorResponse {
     }
 
     public ErrorResponse(ApiError apiError, String message, Object details) {
-        this.apiError = apiError;
+        this.code = apiError.getCode();
+        this.description = apiError.getDescription();
         this.message = message;
         this.details = details;
+    }
+
+    public ErrorResponse(HttpStatus httpStatus) {
+        this.code = httpStatus.value();
+        this.description = httpStatus.getReasonPhrase();
     }
 
     public static ErrorResponse of(ApiError apiError) {
         return new ErrorResponse(apiError);
     }
 
-    public int getCode() {
-        return apiError.getCode();
-    }
-
-    public String getDescription() {
-        return apiError.getDescription();
+    public static ErrorResponse of(HttpStatus httpStatus) {
+        return new ErrorResponse(httpStatus);
     }
 }
