@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -41,7 +42,7 @@ public class ErrorControllerAdvice {
                 .body(new ErrorResponse(e.getApiError(), e.getLocalizedMessage(), e.getFields()));
     }
 
-    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ExceptionHandler({HttpMessageNotReadableException.class, MethodArgumentNotValidException.class})
     public ResponseEntity<ErrorResponse> badRequest(HttpMessageNotReadableException e) {
         log.error("badRequest: {}", e.getLocalizedMessage());
         return ResponseEntity
