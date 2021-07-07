@@ -2,6 +2,7 @@ package com.nubiform.order.controller;
 
 import com.nubiform.order.constant.ApiError;
 import com.nubiform.order.exception.ApiException;
+import com.nubiform.order.exception.ApiNotFoundException;
 import com.nubiform.order.exception.ApiParameterException;
 import com.nubiform.order.vo.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,15 @@ public class ErrorController {
     public ResponseEntity<ErrorResponse> apiException(ApiException e) {
         log.error("apiException: {}", e.getLocalizedMessage());
         return ResponseEntity
-                .badRequest()
+                .internalServerError()
+                .body(new ErrorResponse(e.getApiError(), e.getLocalizedMessage()));
+    }
+
+    @ExceptionHandler(ApiNotFoundException.class)
+    public ResponseEntity<ErrorResponse> apiNotFoundException(ApiNotFoundException e) {
+        log.error("apiNotFoundException: {}", e.getLocalizedMessage());
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(e.getApiError(), e.getLocalizedMessage()));
     }
 

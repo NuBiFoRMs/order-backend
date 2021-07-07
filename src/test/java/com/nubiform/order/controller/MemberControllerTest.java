@@ -1,5 +1,6 @@
 package com.nubiform.order.controller;
 
+import com.nubiform.order.constant.ApiError;
 import com.nubiform.order.domain.Member;
 import com.nubiform.order.domain.Order;
 import com.nubiform.order.repository.MemberRepository;
@@ -109,9 +110,9 @@ class MemberControllerTest {
         mockMvc.perform(get(API_V1_MEMBERS_URI + PATH_VARIABLE_USER_ID, "noData")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(1002))
-                .andExpect(jsonPath("$.description").value("no data found"));
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.code").value(ApiError.MEMBER_NOT_FOUND.getCode()))
+                .andExpect(jsonPath("$.description").value(ApiError.MEMBER_NOT_FOUND.getDescription()));
     }
 
     @Test

@@ -1,6 +1,7 @@
 package com.nubiform.order.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nubiform.order.constant.ApiError;
 import com.nubiform.order.repository.MemberRepository;
 import com.nubiform.order.vo.request.SignUpRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,8 +57,8 @@ class SignUpInvalidTest {
                 .content(objectMapper.writeValueAsString(signUpRequest)))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(1001))
-                .andExpect(jsonPath("$.description").value("invalid parameter"))
+                .andExpect(jsonPath("$.code").value(ApiError.INVALID_PARAMETER.getCode()))
+                .andExpect(jsonPath("$.description").value(ApiError.INVALID_PARAMETER.getDescription()))
                 .andExpect(jsonPath("$.details[0].field").value("username"));
     }
 
@@ -70,8 +71,8 @@ class SignUpInvalidTest {
                 .content(objectMapper.writeValueAsString(signUpRequest)))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(1001))
-                .andExpect(jsonPath("$.description").value("invalid parameter"))
+                .andExpect(jsonPath("$.code").value(ApiError.INVALID_PARAMETER.getCode()))
+                .andExpect(jsonPath("$.description").value(ApiError.INVALID_PARAMETER.getDescription()))
                 .andExpect(jsonPath("$.details[0].field").value("nickname"));
     }
 
@@ -84,8 +85,8 @@ class SignUpInvalidTest {
                 .content(objectMapper.writeValueAsString(signUpRequest)))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(1001))
-                .andExpect(jsonPath("$.description").value("invalid parameter"))
+                .andExpect(jsonPath("$.code").value(ApiError.INVALID_PARAMETER.getCode()))
+                .andExpect(jsonPath("$.description").value(ApiError.INVALID_PARAMETER.getDescription()))
                 .andExpect(jsonPath("$.details[0].field").value("password"));
     }
 
@@ -98,8 +99,8 @@ class SignUpInvalidTest {
                 .content(objectMapper.writeValueAsString(signUpRequest)))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(1001))
-                .andExpect(jsonPath("$.description").value("invalid parameter"))
+                .andExpect(jsonPath("$.code").value(ApiError.INVALID_PARAMETER.getCode()))
+                .andExpect(jsonPath("$.description").value(ApiError.INVALID_PARAMETER.getDescription()))
                 .andExpect(jsonPath("$.details[0].field").value("phone"));
     }
 
@@ -112,8 +113,8 @@ class SignUpInvalidTest {
                 .content(objectMapper.writeValueAsString(signUpRequest)))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(1001))
-                .andExpect(jsonPath("$.description").value("invalid parameter"))
+                .andExpect(jsonPath("$.code").value(ApiError.INVALID_PARAMETER.getCode()))
+                .andExpect(jsonPath("$.description").value(ApiError.INVALID_PARAMETER.getDescription()))
                 .andExpect(jsonPath("$.details[0].field").value("email"));
     }
 
@@ -130,8 +131,8 @@ class SignUpInvalidTest {
                 .content(objectMapper.writeValueAsString(signUpRequest)))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(1001))
-                .andExpect(jsonPath("$.description").value("invalid parameter"))
+                .andExpect(jsonPath("$.code").value(ApiError.INVALID_PARAMETER.getCode()))
+                .andExpect(jsonPath("$.description").value(ApiError.INVALID_PARAMETER.getDescription()))
                 .andExpect(jsonPath("$.details.length()").value(5));
     }
 }
