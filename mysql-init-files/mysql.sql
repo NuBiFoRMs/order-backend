@@ -6,12 +6,12 @@ create table members
 (
     id       bigint auto_increment
         primary key,
-    email    varchar(100) null,
-    gender   varchar(20)  null,
-    nickname varchar(30)  null,
+    email    varchar(255) null,
+    gender   varchar(255) null,
+    nickname varchar(255) null,
     password varchar(255) null,
-    phone    varchar(20)  null,
-    username varchar(20)  null,
+    phone    varchar(255) null,
+    username varchar(255) null,
     constraint UK_email
         unique (email),
     constraint UK_nickname
@@ -23,7 +23,7 @@ create table orders
     id         bigint auto_increment
         primary key,
     order_date datetime(6)  null,
-    product    varchar(100) null,
+    product    varchar(255) null,
     member_id  bigint       null,
     constraint FK_member_id
         foreign key (member_id) references members (id)
