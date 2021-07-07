@@ -4,7 +4,6 @@ import com.nubiform.order.constant.ApiError;
 import com.nubiform.order.domain.Member;
 import com.nubiform.order.domain.Order;
 import com.nubiform.order.exception.ApiException;
-import com.nubiform.order.exception.ApiNotFoundException;
 import com.nubiform.order.repository.MemberRepository;
 import com.nubiform.order.repository.OrderRepository;
 import com.nubiform.order.vo.request.OrderRequest;
@@ -34,7 +33,7 @@ public class OrderService {
     @Transactional(readOnly = true)
     public List<OrderResponse> getOrder(String userid) {
         return memberRepository.findByNicknameOrEmail(userid, userid)
-                .orElseThrow(() -> ApiNotFoundException.of(ApiError.ORDER_NOT_FOUND))
+                .orElseThrow(() -> ApiException.of(ApiError.NO_DATA_FOUND))
                 .getOrder().stream()
                 .map(order -> modelMapper.map(order, OrderResponse.class))
                 .collect(Collectors.toList());

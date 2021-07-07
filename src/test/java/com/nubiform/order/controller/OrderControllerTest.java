@@ -1,7 +1,6 @@
 package com.nubiform.order.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nubiform.order.constant.ApiError;
 import com.nubiform.order.domain.Member;
 import com.nubiform.order.domain.Order;
 import com.nubiform.order.repository.MemberRepository;
@@ -123,9 +122,9 @@ class OrderControllerTest {
         mockMvc.perform(get(API_V1_ORDERS_URI + PATH_VARIABLE_USER_ID, "empty")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.code").value(ApiError.ORDER_NOT_FOUND.getCode()))
-                .andExpect(jsonPath("$.description").value(ApiError.ORDER_NOT_FOUND.getDescription()));
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(1002))
+                .andExpect(jsonPath("$.description").value("no data found"));
     }
 
     @Test
