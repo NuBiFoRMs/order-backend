@@ -9,6 +9,6 @@ import javax.validation.constraints.Size;
 public class OrderRequest {
 
     @NotBlank
-    @Size(max = 100)
+    @Size(max = 100, message = "{product.size}")
     private String product;
 }

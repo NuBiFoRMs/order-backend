@@ -17,30 +17,30 @@ import javax.validation.constraints.Size;
 public class SignUpRequest {
 
     @NotBlank
-    @Size(max = 20)
-    @Pattern(regexp = "^[a-zA-Z가-힣]+$")
+    @Size(max = 20, message = "{username.size}")
+    @Pattern(regexp = "^[a-zA-Z가-힣]+$", message = "{username.pattern}")
     private String username;
 
     @NotBlank
-    @Size(max = 30)
-    @Pattern(regexp = "^[a-z]+${8,}")
+    @Size(max = 30, message = "{nickname.size}")
+    @Pattern(regexp = "^[a-z]+${8,}", message = "{nickname.pattern}")
     private String nickname;
 
     @NotBlank
-    @Size(max = 255)
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*?&]{10,}")
+    @Size(max = 255, message = "{password.size}")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*?&]{10,}", message = "{password.pattern}")
     private String password;
 
     @NotBlank
-    @Size(max = 20)
-    @Pattern(regexp = "^[0-9]+$")
+    @Size(max = 20, message = "{phone.size}")
+    @Pattern(regexp = "^[0-9]+$", message = "{phone.pattern}")
     private String phone;
 
     @NotBlank
-    @Size(max = 100)
-    @Email
+    @Size(max = 100, message = "{email.size}")
+    @Email(message = "{email.pattern}")
     private String email;
 
-    @Size(max = 20)
+    @Size(max = 20, message = "{gender.size}")
     private String gender;
 }
