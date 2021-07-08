@@ -5,6 +5,7 @@ import com.nubiform.order.service.OrderService;
 import com.nubiform.order.vo.request.OrderRequest;
 import com.nubiform.order.vo.response.OrderResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +36,7 @@ public class OrderController {
 
     @Operation(summary = "단일회원주문정보", description = "단일 회원 주문 정보조회를 수행합니다.")
     @GetMapping(PATH_VARIABLE_USER_ID)
-    public ResponseEntity<List<OrderResponse>> getOrder(@PathVariable String userid) {
+    public ResponseEntity<List<OrderResponse>> getOrder(@Parameter(description = "nickname or email") @PathVariable String userid) {
         log.debug("getOrder: {}", userid);
         return ResponseEntity.ok(orderService.getOrder(userid));
     }

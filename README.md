@@ -32,6 +32,8 @@
 해당 스크립트는 `Docker`를 통해 `MySQL`이 실행될때 자동으로 수행될 수 있도록 `Docker Compose`를 구성하였습니다.  
 `mysql` 쓰기 전용 서버와 읽기 전용 서버 `replication` 설정을 쓰기 전용 유저 `write`, 읽기 전용 유저 `read-only` 구성으로 대체 하였습니다.
 
+![ERD](docs/erd.png)
+
 ## 빌드 및 실행 방법
 
 ### Gradle Build and Run with `local` profile
@@ -42,7 +44,7 @@ H2 Database, Embedded Redis 구성으로 실행
 git clone https://github.com/NuBiFoRMs/order-backend.git
 cd order-backend
 gradle build
-java -jar -Dspring.profiles.active=local order-backend-1.0.4.jar
+java -jar -Dspring.profiles.active=local order-backend-1.0.5.jar
 ```
 
 ### Gradle Build and Run with `dev` profile
@@ -54,7 +56,7 @@ git clone https://github.com/NuBiFoRMs/order-backend.git
 cd order-backend
 docker-compose -f docker-compose-dev.yml up -d
 gradle build
-java -jar -Dspring.profiles.active=local order-backend-1.0.4.jar
+java -jar -Dspring.profiles.active=local order-backend-1.0.5.jar
 ```
 
 ### Docker Run with `prod` profile
@@ -66,6 +68,14 @@ git clone https://github.com/NuBiFoRMs/order-backend.git
 cd order-backend
 docker-compose up -d
 ```
+
+## CI / CD 구성
+
+git actions를 사용하여 CI/CD를 구성
+
+`.github/workflows/build.yml` : `main`, `develop`브랜치에 merge시 테스트 및 빌드를 수행 후 테스트 커버리지 측정
+
+`.github/workflows/release.yml` : 릴리즈가 태깅될시 빌드를 수행 후 Docker Hub으로 배포
 
 ## 기타
 
