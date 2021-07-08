@@ -23,18 +23,19 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 20)
+    @Column(length = 20, nullable = false)
     private String username;
 
-    @Column(unique = true, length = 30)
+    @Column(length = 30, nullable = false, unique = true)
     private String nickname;
 
+    @Column(length = 500, nullable = false)
     private String password;
 
-    @Column(length = 20)
+    @Column(length = 20, nullable = false)
     private String phone;
 
-    @Column(unique = true, length = 100)
+    @Column(length = 100, nullable = false, unique = true)
     private String email;
 
     @Column(length = 20)
