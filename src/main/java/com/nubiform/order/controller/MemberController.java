@@ -4,6 +4,7 @@ import com.nubiform.order.service.MemberService;
 import com.nubiform.order.vo.response.MemberOrderResponse;
 import com.nubiform.order.vo.response.MemberResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class MemberController {
 
     @Operation(summary = "단일회원정보", description = "단일 회원 정보조회를 수행합니다.")
     @GetMapping(PATH_VARIABLE_USER_ID)
-    public ResponseEntity<MemberResponse> getMember(@PathVariable String userid) {
+    public ResponseEntity<MemberResponse> getMember(@Parameter(description = "nickname or email") @PathVariable String userid) {
         log.debug("getMember: {}", userid);
         return ResponseEntity.ok(memberService.getMember(userid));
     }
