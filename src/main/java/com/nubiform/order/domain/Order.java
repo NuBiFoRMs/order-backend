@@ -19,9 +19,10 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     private String product;
 
+    @Column(nullable = false)
     private LocalDateTime orderDate;
 
     @ManyToOne
