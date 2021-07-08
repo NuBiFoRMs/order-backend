@@ -56,7 +56,7 @@ git clone https://github.com/NuBiFoRMs/order-backend.git
 cd order-backend
 docker-compose -f docker-compose-dev.yml up -d
 gradle build
-java -jar -Dspring.profiles.active=local order-backend-1.0.6.jar
+java -jar -Dspring.profiles.active=dev order-backend-1.0.6.jar
 ```
 
 ### Docker Run with `prod` profile
